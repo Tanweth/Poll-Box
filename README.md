@@ -6,7 +6,7 @@ Poll-Box
 * Author: Tanweth
 * Website: http://kerfufflealliance.com
 
-REQUIRED: Advanced Sidebox (last tested on 2.0)
+REQUIRED: Advanced Sidebox (last tested on 2.0). Found here: https://github.com/WildcardSearch/Advanced-Sidebox
 
 A module for the Advanced Sidebox plugin by Wildcard for myBB. It displays an existing MyBB poll in a sidebox.
 
