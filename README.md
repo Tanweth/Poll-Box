@@ -1,10 +1,10 @@
 Poll-Box
 ========
 
-Version: 1.0
-Compatibility: MyBB 1.6.x (last tested on 1.6.10)
-Author: Tanweth
-Website: http://kerfufflealliance.com
+* Version: 1.0
+* Compatibility: MyBB 1.6.x (last tested on 1.6.10)
+* Author: Tanweth
+* Website: http://kerfufflealliance.com
 
 REQUIRED: Advanced Sidebox (last tested on 2.0)
 
