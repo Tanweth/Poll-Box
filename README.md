@@ -1,7 +1,7 @@
 Poll-Box
 ========
 
-* Version: 1.0.1
+* Version: 1.0.2
 * Compatibility: MyBB 1.6.x (last tested on 1.6.10)
 * Author: Tanweth
 * Contact: tanweth@gmail.com
@@ -46,4 +46,6 @@ Known Issues
 
 Changelog
 
-* 1.01 - Added "return true" if the sidebox has something to display, so that it will display for users who set "Show Sideboxes With No Content?" to No in Advanced Sidebox.
+* 1.0.2 - Added info on module and all settings to the language file, as this was previously overlooked (*smacks forehead*).
+
+* 1.0.1 - Added "return true" if the sidebox has something to display, so that it will display for users who set "Show Sideboxes With No Content?" to No in Advanced Sidebox.

@@ -22,11 +22,16 @@ function asb_poll_box_info()
 	{
 		$lang->load('asb_addon');
 	}
+	
+	if(!$lang->asb_poll_box)
+	{
+		$lang->load('asb_poll_box');
+	}
 
 	return array
 	(
-		"title" => 'Poll',
-		"description" => 'Displays an existing MyBB poll in a sidebox, specified by forum or poll ID.',
+		"title" => $lang->asb_poll_box_title,
+		"description" => $lang->asb_poll_box_desc,
 		"wrap_content"	=> true,
 		"version" => "1",
 		"settings" =>	array
@@ -35,8 +40,8 @@ function asb_poll_box_info()
 			(
 				"sid" => "NULL",
 				"name" => "poll_forum",
-				"title" => "Forum to Pull Polls From",
-				"description" => "If you prefer to pull the latest poll from a specific forum (or forums), enter the fid of the forum(s) to pull from, each separated by commas.",
+				"title" => $lang->poll_forum_title,
+				"description" => $lang->poll_forum_desc,
 				"optionscode" => "text",
 				"value" => ''
 			),
@@ -44,8 +49,8 @@ function asb_poll_box_info()
 			(
 				"sid" => "NULL",
 				"name" => "poll_pid",
-				"title" => "Specific Poll to Display",
-				"description" => "If you prefer to specify exactly which poll to display, enter the pid of the poll to display here.",
+				"title" => $lang->poll_pid_title,
+				"description" => $lang->poll_pid_desc,
 				"optionscode" => "text",
 				"value" => ''
 			)
@@ -147,7 +152,7 @@ function asb_poll_box_build_template($args)
 	global $mybb, $db, $templates, $theme, $lang, $pollbox;
 	
 	$lang->load("showthread");
-	$lang->load('asb_poll_box');
+	$lang->load("asb_poll_box");
     $parser = new postParser;
 
 
