@@ -1,7 +1,7 @@
 Poll-Box
 ========
 
-* Version: 1.0
+* Version: 1.0.1
 * Compatibility: MyBB 1.6.x (last tested on 1.6.10)
 * Author: Tanweth
 * Contact: tanweth@gmail.com
@@ -43,3 +43,7 @@ Setting It Up
 Known Issues
 
 * When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer this, but some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to do the latter is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to replace the core file with one that changes the redirect behavior.
+
+Changelog
+
+* 1.01 - Added "return true" if the sidebox has something to display, so that it will display for users who set "Show Sideboxes With No Content?" to No in Advanced Sidebox.
