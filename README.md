@@ -41,6 +41,3 @@ Setting It Up
 Known Issues
 
 * When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer this, but some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to do the latter is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to replace the core file with one that changes the redirect behavior.
-
-* There are two custom language entries used in this mod, but they're just typed out directly in the module file rather than attached to a language pack. Nearly everything is default language so it seemed silly to make a language pack just for two entries. But this does mean that if you want to modify this for another language, you'll need to edit the module file directly. Just search for "Undo Vote" (attached to a variable near the end of the file) and "Show Thread" (appears once in asb_poll_box_poll template, and once in asb_poll_box_poll_results template).
-

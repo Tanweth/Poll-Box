@@ -73,7 +73,7 @@ function asb_poll_box_info()
 									<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
 								</tr>
 								<tr>
-									<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+									<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
 								</tr>
 								<tr>
 									<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
@@ -147,6 +147,7 @@ function asb_poll_box_build_template($args)
 	global $mybb, $db, $templates, $theme, $lang, $pollbox;
 	
 	$lang->load("showthread");
+	$lang->load('asb_poll_box');
     $parser = new postParser;
 
 
@@ -325,7 +326,7 @@ function asb_poll_box_build_template($args)
 		{
 			if($alreadyvoted && $mybb->usergroup['canundovotes'] == 1)
 			{
-				$pollstatus .= " [<a href=\"polls.php?action=do_undovote&amp;pid={$poll['pid']}&amp;my_post_key={$mybb->post_code}\">Undo Vote</a>]";
+				$pollstatus .= " [<a href=\"polls.php?action=do_undovote&amp;pid={$poll['pid']}&amp;my_post_key={$mybb->post_code}\">{$lang->undo_vote}</a>]";
 			}
 			else
 			{
