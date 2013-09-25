@@ -76,7 +76,7 @@ function asb_poll_box_info()
 									<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
 								</tr>
 								<tr>
-									<td colspan="2" class="trow2"><span class="smalltext">{\$publicnote}</span></td>
+									<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
 								</tr>
 							</table>
 						</td>
