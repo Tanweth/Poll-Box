@@ -61,22 +61,22 @@ function asb_poll_box_info()
 					<input type="hidden" name="action" value="vote" />
 					<input type="hidden" name="pid" value="{\$poll[\'pid\']}" />
 					<tr>
-						<td>
+						<td class="trow1">
 							<table>
 								<tr>
-									<td colspan="4"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; color: #fff; font-weight: bold">{\$poll[\'question\']}</a><br /></td>
+									<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /></td>
 								</tr>
 								{\$polloptions}
 							</table>
 							<table width="100%" align="center">
 								<tr>
-									<td><input type="submit" class="button" value="{\$lang->vote}" /></td>
+									<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
 								</tr>
 								<tr>
-									<td><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+									<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
 								</tr>
 								<tr>
-									<td colspan="2"><span class="smalltext">{\$publicnote}</span></td>
+									<td colspan="2" class="trow2"><span class="smalltext">{\$publicnote}</span></td>
 								</tr>
 							</table>
 						</td>
@@ -91,20 +91,20 @@ EOF
 				"title" => "asb_poll_box_poll_results",
 				"template" => <<<EOF
 				<tr>
-					<td>
+					<td class="trow1">
 						<table>
 							<tr>
-								<td colspan="4"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; color: #fff; font-weight: bold">{\$poll[\'question\']}</a><br /><span class="smalltext">{\$pollstatus}</span><br /></td>
+								<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /><span class="smalltext">{\$pollstatus}</span><br /></td>
 							</tr>
 							{\$polloptions}
 							<tr>
-								<td class="tfoot" align="right"><strong>{\$lang->total}</strong></td>
-								<td class="tfoot" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
+								<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
+								<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
 							</tr>
 						</table>
 						<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 							<tr>
-								<td align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+								<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
 							</tr>
 						</table>
 					</td>
