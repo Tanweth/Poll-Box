@@ -154,7 +154,8 @@ function asb_poll_box_build_template($args)
 	$options = array(
 		"limit" => 1
 	);
-
+	
+	// Query if the user supplied a pid. Join with the threads table to obtain the fid of the poll (needed to inherit permissions).
 	if (!empty($settings['poll_pid']['value']))
 	{
 		$query = $db->write_query("
@@ -166,6 +167,8 @@ function asb_poll_box_build_template($args)
 		
 		$poll = $db->fetch_array($query);
 	}
+	
+	// Query if the user supplied an fid/fids. Join with the threads table so polls can be limited by fid (and so permissions can be inherited).
 	elseif (!empty($settings['poll_forum']['value']))
 	{
 		$poll_fids = explode(',', $settings['poll_forum']['value']);
@@ -197,7 +200,7 @@ function asb_poll_box_build_template($args)
 	
 	$forumpermissions = forum_permissions($poll['fid']);
 	
-	// Only display if query is not empty and user has the right to view the poll.
+	// Only display if the query is not empty and user has the right to view the poll.
 	if(!empty($poll['pid']) && ($forumpermissions['canview'] != 1 || $forumpermissions['canviewthreads'] != 1))
 	{
 		$poll = '';
