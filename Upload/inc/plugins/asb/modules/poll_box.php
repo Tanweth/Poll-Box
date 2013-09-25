@@ -347,7 +347,9 @@ function asb_poll_box_build_template($args)
 			}
 			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_box_poll")."\";");
 		}
-
+	
+		// return true if your box has something to show, or false if it doesn't.
+		return true;
     }
 	else
 	{
