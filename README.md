@@ -28,7 +28,7 @@ Features
 
 How to Install
 
-* Simply upload the file, and Advanced Sidebox will automatically install the module.
+* Simply upload what's in the Upload directory, and Advanced Sidebox will automatically install the module.
 
 Setting It Up
 
@@ -42,7 +42,13 @@ Setting It Up
 
 Known Issues
 
-* When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer this, but some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to do the latter is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to replace the core file with one that changes the redirect behavior.
+When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer this, but some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to do the latter is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to replace the core file with one that changes the redirect behavior.
+
+Support
+
+If you notice a bug, you can report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
+
+You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 Changelog
 
