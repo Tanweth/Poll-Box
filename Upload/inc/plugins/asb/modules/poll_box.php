@@ -22,7 +22,7 @@ function asb_poll_box_info()
 	{
 		$lang->load('asb_addon');
 	}
-	
+
 	if(!$lang->asb_poll_box)
 	{
 		$lang->load('asb_poll_box');
@@ -33,7 +33,7 @@ function asb_poll_box_info()
 		"title" => $lang->asb_poll_box_title,
 		"description" => $lang->asb_poll_box_desc,
 		"wrap_content"	=> true,
-		"version" => "1",
+		"version" => "1.0.2",
 		"settings" =>	array
 		(
 			"poll_forum" => array
@@ -88,8 +88,6 @@ function asb_poll_box_info()
 					</tr>
 				</form>
 EOF
-				,
-				"sid" => -1
 			),
 			array
 			(
@@ -115,8 +113,6 @@ EOF
 					</td>
 				</tr>
 EOF
-				,
-				"sid" => -1
 			),
 			array
 			(
@@ -131,8 +127,6 @@ EOF
 					<td class="{\$optionbg}" colspan="3" align="right"><img src="{\$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{\$theme[\'imgdir\']}/pollbar.gif" width="{\$imagewidth}" height="10" alt="{\$percent}%" title="{\$percent}%" /><img src="{\$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
 				</tr>
 EOF
-				,
-				"sid" => -1
 			)
 		)
 	);
@@ -148,18 +142,20 @@ function asb_poll_box_build_template($args)
 
 	// don't forget to declare your variable! will not work without this
 	global $$template_var;
-	
+
 	global $mybb, $db, $templates, $theme, $lang, $pollbox;
-	
+
 	$lang->load("showthread");
 	$lang->load("asb_poll_box");
+
+	require_once MYBB_ROOT."inc/class_parser.php";
     $parser = new postParser;
 
 
 	$options = array(
 		"limit" => 1
 	);
-	
+
 	// Query if the user supplied a pid. Join with the threads table to obtain the fid of the poll (needed to inherit permissions).
 	if (!empty($settings['poll_pid']['value']))
 	{
@@ -169,29 +165,29 @@ function asb_poll_box_build_template($args)
 			LEFT JOIN ".TABLE_PREFIX."polls p ON (t.tid=p.tid)
 			WHERE p.pid=".$settings['poll_pid']['value']."
 		");
-		
+
 		$poll = $db->fetch_array($query);
 	}
-	
+
 	// Query if the user supplied an fid/fids. Join with the threads table so polls can be limited by fid (and so permissions can be inherited).
 	elseif (!empty($settings['poll_forum']['value']))
 	{
 		$poll_fids = explode(',', $settings['poll_forum']['value']);
-		
+
 		if (is_array($poll_fids))
 		{
 			foreach ($poll_fids as $fid)
 			{
 				$fid_array[] = intval($fid);
 			}
-			
+
 			$poll_fids = implode(',', $fid_array);
 		}
 		else
 		{
 			$poll_fids = $settings['poll_forum']['value'];
 		}
-			
+
 		$query = $db->write_query("
 			SELECT t.tid, t.fid, p.*
 			FROM ".TABLE_PREFIX."threads t
@@ -199,18 +195,18 @@ function asb_poll_box_build_template($args)
 			WHERE t.fid IN (".$poll_fids.")
 			ORDER BY p.pid DESC
 		");
-		
+
 		$poll = $db->fetch_array($query);
 	}
-	
+
 	$forumpermissions = forum_permissions($poll['fid']);
-	
+
 	// Only display if the query is not empty and user has the right to view the poll.
 	if(!empty($poll['pid']) && ($forumpermissions['canview'] != 1 || $forumpermissions['canviewthreads'] != 1))
 	{
 		$poll = '';
 	}
-	
+
     if (!empty($poll['pid']))
     {
 		$poll['timeout'] = $poll['timeout']*60*60*24;
@@ -228,7 +224,7 @@ function asb_poll_box_build_template($args)
 		{
 			$query = $db->simple_select("pollvotes", "*", "uid='".$mybb->user['uid']."' AND pid='".$poll['pid']."'");
 			while($votecheck = $db->fetch_array($query))
-			{	
+			{
 				$alreadyvoted = 1;
 				$votedfor[$votecheck['voteoption']] = 1;
 			}
@@ -352,7 +348,7 @@ function asb_poll_box_build_template($args)
 			}
 			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_box_poll")."\";");
 		}
-	
+
 		// return true if your box has something to show, or false if it doesn't.
 		return true;
     }
