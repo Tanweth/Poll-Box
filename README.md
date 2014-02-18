@@ -36,7 +36,7 @@ Setting It Up (Advanced Sidebox)
 
 * As with any sidebox in Advanced Sidebox you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display. Then select which scripts (pages) you want the poll to display on in the resulting popup.
 
-* If you are using the standard editon, the poll should automatically be visible on the Index and Portal pages after activation (though it may not be if the templates for these pages are modified, see the Troubleshooting section below if you're having an issue).
+* If you are using the standard edition, the poll should automatically be visible on the Index and Portal pages after activation (though it may not be if the templates for these pages are modified, see the Troubleshooting section below if you're having an issue).
 
 * Under Settings (ASB) or the At Home Polls settings group (Standard), enter the fid(s) for the forum(s) you want the latest poll to be pulled from. You can find the fid in the URL for the forum (/forumdisplay.php?fid=<fid>, or /forum-<fid>.html" if you have search engine-friendly URLs on). If you have Google SEO or some other custom URL rules which make the fid not appear in the URL, you can find it in the URL attached to the New Thread button (/newthread.php?fid=<fid>).
 
