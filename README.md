@@ -1,7 +1,7 @@
 At Home Polls (formerly Poll Box)
 ========
 
-* Version: 2.0
+* Version: 2.0.1
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * Contact: tanweth@zoho.com
@@ -13,7 +13,7 @@ A plugin that allows a fully-functional MyBB poll to be displayed on your home p
 
 * Standard: A standard MyBB plugin that displays a poll on your Index and Portal pages. This version has no dependencies (other than MyBB 1.6).
 
-* Advanced Sidebox (ASB): Requires Advanced Sidebox 2.0.5 or later (found here: https://github.com/WildcardSearch/Advanced-Sidebox). This module allows you to display a sidebox-optimized poll in a sidebox on any page. This integrates directly with Advanced Sidebox (there's no MyBB plugin to install).
+* Advanced Sidebox (ASB): Requires Advanced Sidebox 2.0.5 or later (found here: https://github.com/WildcardSearch/Advanced-Sidebox). This module allows you to display a sidebox-optimized poll in a sidebox on any page. It integrates directly with Advanced Sidebox (there's no MyBB plugin to install).
 
 Features
 
@@ -32,15 +32,17 @@ How to Install
 * Standard Edition: Upload the files in the Standard directory, and Install & Activate the plugin from the Configuration -> Plugins area of your Admin CP.
 * ASB Edition: Simply upload what's in the ASB directory, and Advanced Sidebox will automatically install the module.
 
-Setting It Up (Advanced Sidebox)
+NB: If you previously used Poll Box, be sure to remove the module through Advanced Sidebox's Manage Modules page to avoid duplication. The plugin and all of its files has been renamed as of v2.0. You may also want to remove /inc/languages/english/asb_poll_box.lang.php for tidiness (it's harmless if it stays there).
 
-* As with any sidebox in Advanced Sidebox you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display. Then select which scripts (pages) you want the poll to display on in the resulting popup.
+Setting It Up
 
-* If you are using the standard edition, the poll should automatically be visible on the Index and Portal pages after activation (though it may not be if the templates for these pages are modified, see the Troubleshooting section below if you're having an issue).
+* Advanced Sidebox: As with any sidebox, you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display. Then select which scripts (pages) you want the poll to display on in the resulting popup.
+
+* Standard: The poll should automatically be visible on the Index and Portal pages after activation (though it may not be if the templates for these pages are modified, see the Troubleshooting section below if you're having an issue).
 
 * Under Settings in the popup (ASB) or the At Home Polls settings group in the Settings section of your Admin CP (Standard), enter the fid(s) for the forum(s) you want the latest poll to be pulled from. You can find the fid in the URL for the forum (/forumdisplay.php?fid=<fid>, or /forum-<fid>.html" if you have search engine-friendly URLs on). If you have Google SEO or some other custom URL rules which make the fid not appear in the URL, you can find it in the URL attached to the New Thread button (/newthread.php?fid=<fid>).
 
-* If you'd prefer to specify a specific poll to display, you can enter its pid in the second dialog box under Settings. You can find the pid in the "Show Results" URL for the poll (polls.php?action=showresults&pid=<pid>)
+* If you'd prefer to specify a specific poll to display, you can enter its pid in the second dialog box under Settings. You can find the pid in the "Show Results" URL for the poll (polls.php?action=showresults&pid=<pid>).
 
 Known Issues
 
@@ -50,17 +52,21 @@ Troubleshooting & Customization
 
 * If you are experiencing issues with the ASB edition, make sure you have the latest version of ASB (2.0.5 at the time of this readme).
 
-* On the standard edition, simple template edits are made to place the poll box on the Index and Portal pages. If these do not show up for any reason, or if you simply wish to move the location of the poll box, simply go to the index and portal templates and place the variable {$homepoll} wherever you want it to appear.
+* On the standard edition, simple template edits are made to place the poll box on the Index and Portal pages. If these do not show up for any reason, or if you wish to move the location of the poll box, simply go to the index and portal templates and place the variable {$homepoll} wherever you want it to appear.
 
 Support
-
-No guarantee of support is provided, but I will do my best to provide support for any issues.
 
 If you notice a bug, you can report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
 
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 Changelog
+
+* 2.0.1 - Made the ASB sidebox (or compact version on Standard) scale better to lower widths:
+	* The width of the pollbars is now smaller on the compact version (Standard), and dynamically adjusts to the width of the sidebox (ASB).
+	* The "Show Thread" and "Show Results" links now simply say "Thread" and "Results" so that they are more likely to fit on one line (ASB & Standard if compact layout).
+	* Percentages are now represented as whole numbers with no decimal places to reduce the amount of space used (ASB & Standard if compact layout).
+	* Fixed an issue where a piece of text was directly entered in the template rather than read from the language file.
 
 * 2.0
 	* Renamed to At Home Polls (from Poll Box).

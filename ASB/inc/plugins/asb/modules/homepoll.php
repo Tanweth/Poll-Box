@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name: At Home Polls (for Advanced Sidebox)
+ * Plugin Name: At Home Polls (Advanced Sidebox Edition)
  * Author: Tanweth
  * http://www.kerfufflealliance.com
  *
  * Allows a fully-functional and sidebox-optimized poll to be displayed in a sidebox.
- * Requires MyBB 1.6.x and Wildcard's Advanced Sidebox 2.0.x.
+ * Requires MyBB 1.6.x and Advanced Sidebox 2.0.5 or later.
  */
 
 // Include a check for Advanced Sidebox
@@ -33,7 +33,7 @@ function asb_homepoll_info()
 		"title" => $lang->homepoll_title_asb,
 		"description" => $lang->homepoll_description_asb,
 		"wrap_content"	=> true,
-		"version" => "2.0",
+		"version" => "2.0.1",
 		"settings" =>	array
 		(
 			"homepoll_fid" => array
@@ -78,7 +78,7 @@ function asb_homepoll_info()
 					<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
 				</tr>
 				<tr>
-					<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+					<td class="trow1" align="right"><span class="smalltext"><a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a></span></td>
 				</tr>
 				<tr>
 					<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
@@ -101,13 +101,13 @@ EOF
 			</tr>
 			{\$polloptions}
 			<tr>
-				<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
+				<td class="trow2" align="right"><strong>{\$lang->total}:</strong></td>
 				<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
 			</tr>
 		</table>
 		<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 			<tr>
-				<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+				<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]</span></td>
 			</tr>
 		</table>
 	</td>
@@ -121,7 +121,7 @@ EOF
 <tr>
 	<td class="{\$optionbg} smalltext" width="100%" align="left">{\$option}{\$votestar}</td>
 	<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">{\$votes}</span></td>
-	<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">({\$percent}%)</span></td>
+	<td class="{\$optionbg}" width="45" align="right"><span class="smalltext">({\$percent}%)</span></td>
 </tr>
 <tr>
 	<td class="{\$optionbg}" colspan="3" align="right"><img src="{\$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{\$theme[\'imgdir\']}/pollbar.gif" width="{\$imagewidth}" height="10" alt="{\$percent}%" title="{\$percent}%" /><img src="{\$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
@@ -287,9 +287,9 @@ function asb_homepoll_build_template($args)
 				}
 				else
 				{
-					$percent = number_format($votes / $poll['totvotes'] * 100, 2);
+					$percent = number_format($votes / $poll['totvotes'] * 100);
 				}
-				$imagewidth = round(($percent/3) * 5);
+				$imagewidth = round(($percent/3) * ($width/50));
 				$imagerowwidth = $imagewidth + 10;
 				eval("\$polloptions .= \"".$templates->get("asb_poll_resultbit")."\";");
 			}

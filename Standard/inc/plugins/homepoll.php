@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: At Home Polls
+ * Plugin Name: At Home Polls (Standard Edition)
  * Author: Tanweth
  * http://www.kerfufflealliance.com
  *
@@ -29,7 +29,7 @@ function homepoll_info()
 		"website"		=> "http://kerfufflealliance.com",
 		"author"		=> "Tanweth",
 		"authorsite"	=> "http://kerfufflealliance.com",
-		"version"		=> "2.0",
+		"version"		=> "2.0.1",
 		"guid" 			=> "4f3f47c9a77abfcc0d137dd0b43fc8c3",
 		"compatibility" => "16*"
 	);
@@ -203,7 +203,7 @@ function homepoll_activate()
 			<td class="trow1"><input type="submit" class="button" value="{$lang->vote}" /></td>
 		</tr>
 		<tr>
-			<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>]</span></td>
+			<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]</span></td>
 		</tr>
 		<tr>
 			<td colspan="2" class="trow1"><span class="smalltext">{$publicnote}</span></td>
@@ -233,7 +233,7 @@ function homepoll_activate()
 </table>
 <table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 	<tr>
-		<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>]</span></td>
+		<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]</span></td>
 	</tr>
 </table>
 		'),
@@ -452,11 +452,24 @@ function homepoll_poll()
 				{
 					$percent = "0";
 				}
+				elseif ($mybb->settings['homepoll_compact'])
+				{
+					$percent = number_format($votes / $poll['totvotes'] * 100);
+				}
 				else
 				{
 					$percent = number_format($votes / $poll['totvotes'] * 100, 2);
 				}
-				$imagewidth = round(($percent/3) * 5);
+				
+				if ($mybb->settings['homepoll_compact'])
+				{
+					$imagewidth = round($percent);
+				}
+				else
+				{
+					$imagewidth = round(($percent/3) * 5);
+				}
+				
 				$imagerowwidth = $imagewidth + 10;
 				
 				if ($mybb->settings['homepoll_compact'])
