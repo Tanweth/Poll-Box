@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name: Poll Box Module for Advanced Sidebox (MyBB 1.6.x)
+ * Plugin Name: At Home Polls (for Advanced Sidebox)
  * Author: Tanweth
  * http://www.kerfufflealliance.com
  *
- * A module for the Advanced Sidebox plugin by Wildcard. It displays an existing myBB poll in a sidebox.
- * Inspired by Poll on Index plugin by krafdi.de.
+ * Allows a fully-functional and sidebox-optimized poll to be displayed in a sidebox.
+ * Requires MyBB 1.6.x and Wildcard's Advanced Sidebox 2.0.x.
  */
 
 // Include a check for Advanced Sidebox
@@ -14,7 +14,7 @@ if(!defined("IN_MYBB") || !defined("IN_ASB"))
 	die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
 }
 
-function asb_poll_box_info()
+function asb_homepoll_info()
 {
 	global $lang;
 
@@ -23,34 +23,34 @@ function asb_poll_box_info()
 		$lang->load('asb_addon');
 	}
 	
-	if(!$lang->asb_poll_box)
+	if(!$lang->homepoll)
 	{
-		$lang->load('asb_poll_box');
+		$lang->load('homepoll');
 	}
 
 	return array
 	(
-		"title" => $lang->asb_poll_box_title,
-		"description" => $lang->asb_poll_box_desc,
+		"title" => $lang->homepoll_title_asb,
+		"description" => $lang->homepoll_description_asb,
 		"wrap_content"	=> true,
-		"version" => "1",
+		"version" => "2.0",
 		"settings" =>	array
 		(
-			"poll_forum" => array
+			"homepoll_fid" => array
 			(
 				"sid" => "NULL",
-				"name" => "poll_forum",
-				"title" => $lang->poll_forum_title,
-				"description" => $lang->poll_forum_desc,
+				"name" => "homepoll_fid",
+				"title" => $lang->homepoll_fid_title,
+				"description" => $lang->homepoll_fid_description,
 				"optionscode" => "text",
 				"value" => ''
 			),
-			"poll_pid" => array
+			"homepoll_pid" => array
 			(
 				"sid" => "NULL",
-				"name" => "poll_pid",
-				"title" => $lang->poll_pid_title,
-				"description" => $lang->poll_pid_desc,
+				"name" => "homepoll_pid",
+				"title" => $lang->homepoll_pid_title,
+				"description" => $lang->homepoll_pid_description,
 				"optionscode" => "text",
 				"value" => ''
 			)
@@ -59,86 +59,80 @@ function asb_poll_box_info()
 		(
 			array
 			(
-				"title" => "asb_poll_box_poll",
+				"title" => "asb_poll",
 				"template" => <<<EOF
-				<form action="polls.php" method="post">
-					<input type="hidden" name="my_post_key" value="{\$mybb->post_code}" />
-					<input type="hidden" name="action" value="vote" />
-					<input type="hidden" name="pid" value="{\$poll[\'pid\']}" />
-					<tr>
-						<td class="trow1">
-							<table>
-								<tr>
-									<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /></td>
-								</tr>
-								{\$polloptions}
-							</table>
-							<table width="100%" align="center">
-								<tr>
-									<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
-								</tr>
-								<tr>
-									<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
-								</tr>
-								<tr>
-									<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</form>
+<form action="polls.php" method="post">
+	<input type="hidden" name="my_post_key" value="{\$mybb->post_code}" />
+	<input type="hidden" name="action" value="vote" />
+	<input type="hidden" name="pid" value="{\$poll[\'pid\']}" />
+	<tr>
+		<td class="trow1">
+			<table>
+				<tr>
+					<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /></td>
+				</tr>
+				{\$polloptions}
+			</table>
+			<table width="100%" align="center">
+				<tr>
+					<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
+				</tr>
+				<tr>
+					<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</form>
 EOF
-				,
-				"sid" => -1
 			),
 			array
 			(
-				"title" => "asb_poll_box_poll_results",
+				"title" => "asb_poll_results",
 				"template" => <<<EOF
-				<tr>
-					<td class="trow1">
-						<table>
-							<tr>
-								<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /><span class="smalltext">{\$pollstatus}</span><br /></td>
-							</tr>
-							{\$polloptions}
-							<tr>
-								<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
-								<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
-							</tr>
-						</table>
-						<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
-							<tr>
-								<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
+<tr>
+	<td class="trow1">
+		<table>
+			<tr>
+				<td colspan="4" class="trow1"><a href="showthread.php?tid={\$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{\$poll[\'question\']}</a><br /><span class="smalltext">{\$pollstatus}</span><br /></td>
+			</tr>
+			{\$polloptions}
+			<tr>
+				<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
+				<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
+			</tr>
+		</table>
+		<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
+			<tr>
+				<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">Show Thread</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->show_results}</a>]</span></td>
+			</tr>
+		</table>
+	</td>
+</tr>
 EOF
-				,
-				"sid" => -1
 			),
 			array
 			(
-				"title" => "asb_poll_box_poll_resultbit",
+				"title" => "asb_poll_resultbit",
 				"template" => <<<EOF
-				<tr>
-					<td class="{\$optionbg} smalltext" align="right">{\$option}{\$votestar}</td>
-					<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">{\$votes}</span></td>
-					<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">({\$percent}%)</span></td>
-				</tr>
-				<tr>
-					<td class="{\$optionbg}" colspan="3" align="right"><img src="{\$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{\$theme[\'imgdir\']}/pollbar.gif" width="{\$imagewidth}" height="10" alt="{\$percent}%" title="{\$percent}%" /><img src="{\$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
-				</tr>
+<tr>
+	<td class="{\$optionbg} smalltext" width="100%" align="left">{\$option}{\$votestar}</td>
+	<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">{\$votes}</span></td>
+	<td class="{\$optionbg}" width="37" align="right"><span class="smalltext">({\$percent}%)</span></td>
+</tr>
+<tr>
+	<td class="{\$optionbg}" colspan="3" align="right"><img src="{\$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{\$theme[\'imgdir\']}/pollbar.gif" width="{\$imagewidth}" height="10" alt="{\$percent}%" title="{\$percent}%" /><img src="{\$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
+</tr>
 EOF
-				,
-				"sid" => -1
 			)
 		)
 	);
 }
 
-function asb_poll_box_build_template($args)
+function asb_homepoll_build_template($args)
 {
 	// retrieve side box settings
 	foreach(array('settings', 'template_var', 'width') as $key)
@@ -152,31 +146,34 @@ function asb_poll_box_build_template($args)
 	global $mybb, $db, $templates, $theme, $lang, $pollbox;
 	
 	$lang->load("showthread");
-	$lang->load("asb_poll_box");
+	$lang->load("homepoll");
     $parser = new postParser;
-
 
 	$options = array(
 		"limit" => 1
 	);
 	
+	require_once MYBB_ROOT."inc/class_parser.php";
+	
 	// Query if the user supplied a pid. Join with the threads table to obtain the fid of the poll (needed to inherit permissions).
-	if (!empty($settings['poll_pid']['value']))
+	if (!empty($settings['homepoll_pid']['value']))
 	{
+		$pid = intval($settings['homepoll_pid']['value']);
+	
 		$query = $db->write_query("
 			SELECT t.tid, t.fid, p.*
 			FROM ".TABLE_PREFIX."threads t
 			LEFT JOIN ".TABLE_PREFIX."polls p ON (t.tid=p.tid)
-			WHERE p.pid=".$settings['poll_pid']['value']."
+			WHERE p.pid=".$pid."
 		");
 		
 		$poll = $db->fetch_array($query);
 	}
 	
 	// Query if the user supplied an fid/fids. Join with the threads table so polls can be limited by fid (and so permissions can be inherited).
-	elseif (!empty($settings['poll_forum']['value']))
+	elseif (!empty($settings['homepoll_fid']['value']))
 	{
-		$poll_fids = explode(',', $settings['poll_forum']['value']);
+		$poll_fids = explode(',', $settings['homepoll_fid']['value']);
 		
 		if (is_array($poll_fids))
 		{
@@ -189,7 +186,7 @@ function asb_poll_box_build_template($args)
 		}
 		else
 		{
-			$poll_fids = $settings['poll_forum']['value'];
+			$poll_fids = intval($settings['homepoll_fid']['value']);
 		}
 			
 		$query = $db->write_query("
@@ -206,12 +203,12 @@ function asb_poll_box_build_template($args)
 	$forumpermissions = forum_permissions($poll['fid']);
 	
 	// Only display if the query is not empty and user has the right to view the poll.
-	if(!empty($poll['pid']) && ($forumpermissions['canview'] != 1 || $forumpermissions['canviewthreads'] != 1))
+	if (!empty($poll['pid']) && ($forumpermissions['canview'] != 1 || $forumpermissions['canviewthreads'] != 1))
 	{
 		$poll = '';
 	}
 	
-    if (!empty($poll['pid']))
+    if (!empty($poll))
     {
 		$poll['timeout'] = $poll['timeout']*60*60*24;
 		$expiretime = $poll['dateline'] + $poll['timeout'];
@@ -294,7 +291,7 @@ function asb_poll_box_build_template($args)
 				}
 				$imagewidth = round(($percent/3) * 5);
 				$imagerowwidth = $imagewidth + 10;
-				eval("\$polloptions .= \"".$templates->get("asb_poll_box_poll_resultbit")."\";");
+				eval("\$polloptions .= \"".$templates->get("asb_poll_resultbit")."\";");
 			}
 			else
 			{
@@ -334,14 +331,14 @@ function asb_poll_box_build_template($args)
 		{
 			if($alreadyvoted && $mybb->usergroup['canundovotes'] == 1)
 			{
-				$pollstatus .= " [<a href=\"polls.php?action=do_undovote&amp;pid={$poll['pid']}&amp;my_post_key={$mybb->post_code}\">{$lang->undo_vote}</a>]";
+				$pollstatus .= " [<a href=\"polls.php?action=do_undovote&amp;pid={$poll['pid']}&amp;my_post_key={$mybb->post_code}\">{$lang->homepoll_undo_vote}</a>]";
 			}
 			else
 			{
 				$pollstatus = $lang->poll_closed;
 			}
 			$lang->total_votes = $lang->sprintf($lang->total_votes, $totalvotes);
-			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_box_poll_results")."\";");
+			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_results")."\";");
 		}
 		else
 		{
@@ -350,7 +347,7 @@ function asb_poll_box_build_template($args)
 			{
 				$publicnote = $lang->public_note;
 			}
-			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_box_poll")."\";");
+			eval("\$" . $template_var . " = \"".$templates->get("asb_poll")."\";");
 		}
 	
 		// return true if your box has something to show, or false if it doesn't.
