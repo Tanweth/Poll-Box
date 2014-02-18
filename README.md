@@ -6,6 +6,7 @@ At Home Polls (formerly Poll Box)
 * Author: Tanweth
 * Contact: tanweth@zoho.com
 * GitHub: https://github.com/Tanweth/Poll-Box
+* Release thread: http://community.mybb.com/thread-145875.html
 * Website: http://kerfufflealliance.com
 
 A plugin that allows a fully-functional MyBB poll to be displayed on your home pages. Now includes two versions:

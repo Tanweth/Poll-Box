@@ -4,8 +4,8 @@
  * Author: Tanweth
  * http://www.kerfufflealliance.com
  *
- * Allows a fully-functional poll to be placed in a sidebox (ASB version) or on the Index and Portal pages (non-ASB version).
- * Requires MyBB 1.6.x and Advanced Sidebox 2.x (if using the ASB version).
+ * Allows a fully-functional poll to be placed on the Index and Portal pages (standard edition) or in a sidebox (if using with Advanced Sidebox).
+ * Requires MyBB 1.6.x and Advanced Sidebox 2.0.5 or later (if using the ASB edition).
  */
 
 // Title and description for the plugin/module (non-ASB).
