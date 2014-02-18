@@ -101,7 +101,7 @@ EOF
 			</tr>
 			{\$polloptions}
 			<tr>
-				<td class="trow2" align="right"><strong>{\$lang->total}:</strong></td>
+				<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
 				<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
 			</tr>
 		</table>
