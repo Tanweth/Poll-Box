@@ -30,7 +30,7 @@ function homepoll_info()
 		"author"		=> "Tanweth",
 		"authorsite"	=> "http://kerfufflealliance.com",
 		"version"		=> "2.0",
-		"guid" 			=> "",
+		"guid" 			=> "4f3f47c9a77abfcc0d137dd0b43fc8c3",
 		"compatibility" => "16*"
 	);
 }

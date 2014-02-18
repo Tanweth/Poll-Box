@@ -32,19 +32,25 @@ How to Install
 * Standard Edition: Upload the files in the Standard directory, and Install & Activate the plugin from the Configuration -> Plugins area of your Admin CP.
 * ASB Edition: Simply upload what's in the ASB directory, and Advanced Sidebox will automatically install the module.
 
-Setting It Up
+Setting It Up (Advanced Sidebox)
 
-* As with any sidebox in Advanced Sidebox you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display.
+* As with any sidebox in Advanced Sidebox you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display. Then select which scripts (pages) you want the poll to display on in the resulting popup.
 
-* Select which scripts (pages) you want the poll to display on.
+* If you are using the standard editon, the poll should automatically be visible on the Index and Portal pages after activation (though it may not be if the templates for these pages are modified, see the Troubleshooting section below if you're having an issue).
 
-* Under Settings, enter the fid(s) for the forum(s) you want the latest poll to be pulled from. You can find the fid in the URL for the forum (/forumdisplay.php?fid=<fid>, or /forum-<fid>.html" if you have search engine-friendly URLs on). If you have Google SEO or some other custom URL rules which make the fid not appear in the URL, you can find it in the URL attached to the New Thread button (/newthread.php?fid=<fid>).
+* Under Settings (ASB) or the At Home Polls settings group (Standard), enter the fid(s) for the forum(s) you want the latest poll to be pulled from. You can find the fid in the URL for the forum (/forumdisplay.php?fid=<fid>, or /forum-<fid>.html" if you have search engine-friendly URLs on). If you have Google SEO or some other custom URL rules which make the fid not appear in the URL, you can find it in the URL attached to the New Thread button (/newthread.php?fid=<fid>).
 
 * If you'd prefer to specify a specific poll to display, you can enter its pid in the second dialog box under Settings. You can find the pid in the "Show Results" URL for the poll (polls.php?action=showresults&pid=<pid>)
 
 Known Issues
 
 When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to implement this is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to edit the core file and change the redirect behavior.
+
+Troubleshooting & Customization
+
+* If you are experiencing issues with the ASB edition, make sure you have the latest version of ASB (2.0.5 at the time of this readme).
+
+* On the standard edition, simple template edits are made to place the poll box on the Index and Portal pages. If these do not show up for any reason, or if you simply wish to move the location of the poll box, simply go to the index and portal templates and place the variable {$homepoll} wherever you want it to appear.
 
 Support
 
@@ -53,12 +59,6 @@ No guarantee of support is provided, but I will do my best to provide support fo
 If you notice a bug, you can report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
 
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
-
-Troubleshooting & Customization
-
-* If you are experiencing issues with the ASB edition, make sure you have the latest version of ASB (2.0.5 at the time of this readme).
-
-* On the standard edition, simple template edits are made to place the poll box on the Index and Portal pages. If these do not show up for any reason, or if you simply wish to move the location of the poll box, simply go to the index and portal templates and place the variable {$homepoll} wherever you want it to appear.
 
 Changelog
 
