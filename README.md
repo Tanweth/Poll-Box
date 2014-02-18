@@ -67,6 +67,7 @@ Changelog
 	* The "Show Thread" and "Show Results" links now simply say "Thread" and "Results" so that they are more likely to fit on one line (ASB & Standard if compact layout).
 	* Percentages are now represented as whole numbers with no decimal places to reduce the amount of space used (ASB & Standard if compact layout).
 	* Fixed an issue where a piece of text was directly entered in the template rather than read from the language file.
+	* Fixed the name of the settings group (previously called "Polls At Home") (Standard).
 
 * 2.0
 	* Renamed to At Home Polls (from Poll Box).
