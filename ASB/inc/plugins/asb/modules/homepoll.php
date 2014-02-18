@@ -33,7 +33,7 @@ function asb_homepoll_info()
 		"title" => $lang->homepoll_title_asb,
 		"description" => $lang->homepoll_description_asb,
 		"wrap_content"	=> true,
-		"version" => "2.0.1",
+		"version" => "2.0.2",
 		"settings" =>	array
 		(
 			"homepoll_fid" => array
@@ -101,8 +101,8 @@ EOF
 			</tr>
 			{\$polloptions}
 			<tr>
-				<td class="trow2" align="right"><strong>{\$lang->total}</strong></td>
-				<td class="trow2" align="right" colspan="2"><strong>{\$lang->total_votes}</strong></td>
+				<td class="trow2"><strong>{\$lang->total}</strong></td>
+				<td class="trow2" colspan="2" align="right"><strong>{\$lang->homepoll_total}</strong></td>
 			</tr>
 		</table>
 		<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
@@ -337,7 +337,7 @@ function asb_homepoll_build_template($args)
 			{
 				$pollstatus = $lang->poll_closed;
 			}
-			$lang->total_votes = $lang->sprintf($lang->total_votes, $totalvotes);
+			$lang->homepoll_total = $lang->sprintf($lang->homepoll_total, $totalvotes);
 			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_results")."\";");
 		}
 		else

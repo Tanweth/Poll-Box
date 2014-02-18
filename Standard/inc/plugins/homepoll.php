@@ -29,15 +29,15 @@ function homepoll_info()
 		"website"		=> "http://kerfufflealliance.com",
 		"author"		=> "Tanweth",
 		"authorsite"	=> "http://kerfufflealliance.com",
-		"version"		=> "2.0.1",
+		"version"		=> "2.0.2",
 		"guid" 			=> "4f3f47c9a77abfcc0d137dd0b43fc8c3",
 		"compatibility" => "16*"
 	);
 }
 
-function homepoll_activate()
-{
-    global $mybb, $db, $lang;
+ function homepoll_install()
+ {
+	global $db, $lang;
 	
 	if(!$lang->homepoll)
 	{
@@ -123,6 +123,38 @@ function homepoll_activate()
 	$db->insert_query("settings", $setting);
 	
 	rebuild_settings();
+ }
+ 
+ function homepoll_is_installed()
+ {
+	global $db;
+	
+	$query = $db->simple_select("settinggroups", "name", "name='homepoll_group'");
+	
+	if($db->num_rows($query) > 0)
+	{
+		return true;
+	}
+	
+ 	return false;
+ }
+
+ function homepoll_uninstall()
+ {
+	global $db;
+	
+	// Delete settings
+	$db->delete_query("settinggroups", "name = 'homepoll_group'");
+	$db->delete_query("settings", "name = 'homepoll_fid'");
+	$db->delete_query("settings", "name = 'homepoll_pid'");
+	$db->delete_query("settings", "name = 'homepoll_index'");
+	$db->delete_query("settings", "name = 'homepoll_portal'");
+	$db->delete_query("settings", "name = 'homepoll_compact'");
+ }
+
+function homepoll_activate()
+{
+    global $mybb, $db;
 
 	// Add new templates
 	$template = array(
@@ -227,8 +259,8 @@ function homepoll_activate()
 	</tr>
 	{$polloptions}
 	<tr>
-		<td class="trow2" align="right"><strong>{$lang->total}</strong></td>
-		<td class="trow2" align="right" colspan="2"><strong>{$lang->total_votes}</strong></td>
+		<td class="trow2"><strong>{$lang->total}</strong></td>
+		<td class="trow2" colspan="2" align="right" width="100%"><strong>{$lang->homepoll_total}</strong></td>
 	</tr>
 </table>
 <table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
@@ -277,14 +309,6 @@ function homepoll_activate()
 function homepoll_deactivate()
 {
     global $db;
-
-	// Delete settings
-	$db->delete_query("settinggroups", "name = 'homepoll_group'");
-	$db->delete_query("settings", "name = 'homepoll_fid'");
-	$db->delete_query("settings", "name = 'homepoll_pid'");
-	$db->delete_query("settings", "name = 'homepoll_index'");
-	$db->delete_query("settings", "name = 'homepoll_portal'");
-	$db->delete_query("settings", "name = 'homepoll_compact'");
 	
 	// Delete templates
 	$db->delete_query("templates", "title = 'homepoll_poll' AND sid= '-1'");
@@ -525,7 +549,9 @@ function homepoll_poll()
 			{
 				$pollstatus = $lang->poll_closed;
 			}
+			
 			$lang->total_votes = $lang->sprintf($lang->total_votes, $totalvotes);
+			$lang->homepoll_total = $lang->sprintf($lang->homepoll_total, $totalvotes);
 			
 			if ($mybb->settings['homepoll_compact'])
 			{

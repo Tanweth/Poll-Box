@@ -36,4 +36,5 @@ $l['homepoll_undo_vote'] = "Undo Vote";
 $l['homepoll_show_thread'] = "Show Thread";
 $l['homepoll_thread'] = "Thread";
 $l['homepoll_results'] = "Results";
+$l['homepoll_total'] = "{1}";
 ?>

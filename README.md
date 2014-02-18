@@ -1,7 +1,7 @@
 At Home Polls (formerly Poll Box)
 ========
 
-* Version: 2.0.1
+* Version: 2.0.2
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * Contact: tanweth@zoho.com
@@ -61,6 +61,10 @@ If you notice a bug, you can report it in the Issues sections of the GitHub page
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 Changelog
+
+* 2.0.2
+	* Changed the way the total votes are displayed on the ASB Edition and compact layout, since it tended to take up two lines when the vote count reached double digits after the 2.0.1 edits.
+	* Added an install routine that controls settings to the Standard Edition. This way you can deactivate it for an update without losing your custom settings.
 
 * 2.0.1 - Made the ASB sidebox (or compact version on Standard) scale better to lower widths:
 	* The width of the pollbars is now smaller on the compact version (Standard), and dynamically adjusts to the width of the sidebox (ASB).
