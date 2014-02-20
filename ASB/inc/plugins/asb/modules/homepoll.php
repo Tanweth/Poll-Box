@@ -33,7 +33,7 @@ function asb_homepoll_info()
 		"title" => $lang->homepoll_title_asb,
 		"description" => $lang->homepoll_description_asb,
 		"wrap_content"	=> true,
-		"version" => "2.0.2",
+		"version" => "2.0.3",
 		"settings" =>	array
 		(
 			"homepoll_fid" => array
@@ -53,6 +53,15 @@ function asb_homepoll_info()
 				"description" => $lang->homepoll_pid_description,
 				"optionscode" => "text",
 				"value" => ''
+			),
+			"homepoll_edit" => array
+			(
+				"sid" => "NULL",
+				"name" => "homepoll_edit",
+				"title" => $lang->homepoll_edit_title,
+				"description" => $lang->homepoll_edit_description,
+				"optionscode" => "yesno",
+				"value" => 'yes'
 			)
 		),
 		"templates" => array
@@ -78,7 +87,7 @@ function asb_homepoll_info()
 					<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
 				</tr>
 				<tr>
-					<td class="trow1" align="right"><span class="smalltext"><a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a></span></td>
+					<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
 				</tr>
 				<tr>
 					<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
@@ -102,12 +111,12 @@ EOF
 			{\$polloptions}
 			<tr>
 				<td class="trow2"><strong>{\$lang->total}</strong></td>
-				<td class="trow2" colspan="2" align="right"><strong>{\$lang->homepoll_total}</strong></td>
+				<td class="trow2" colspan="2" align="right"><strong>{\$poll[\'totvotes\']}</strong></td>
 			</tr>
 		</table>
 		<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 			<tr>
-				<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]</span></td>
+				<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
 			</tr>
 		</table>
 	</td>
@@ -263,7 +272,6 @@ function asb_homepoll_build_template($args)
 
 			$option = $parser->parse_message($optionsarray[$i-1], $parser_options);
 			$votes = $votesarray[$i-1];
-			$totalvotes += $votes;
 			$number = $i;
 
 			// Mark the option the user voted for.
@@ -317,13 +325,13 @@ function asb_homepoll_build_template($args)
 		}
 
 		// Check if user is allowed to edit posts; if so, show "edit poll" link.
-		if(!is_moderator($fid, 'caneditposts'))
+		if(!is_moderator($poll['fid'], 'caneditposts') || !$settings['homepoll_edit']['value'])
 		{
 			$edit_poll = '';
 		}
 		else
 		{
-			$edit_poll = " | <a href=\"polls.php?action=editpoll&amp;pid={$poll['pid']}\">{$lang->edit_poll}</a>";
+			$edit_poll = "<br/>[<a href=\"polls.php?action=editpoll&amp;pid={$poll['pid']}\">{$lang->edit_poll}</a>]";
 		}
 
 		// Decide what poll status to show depending on the status of the poll and whether or not the user voted already.
@@ -337,7 +345,6 @@ function asb_homepoll_build_template($args)
 			{
 				$pollstatus = $lang->poll_closed;
 			}
-			$lang->homepoll_total = $lang->sprintf($lang->homepoll_total, $totalvotes);
 			eval("\$" . $template_var . " = \"".$templates->get("asb_poll_results")."\";");
 		}
 		else

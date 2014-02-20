@@ -21,6 +21,8 @@ $l['homepoll_fid_title'] = "Forum to Display Polls From";
 $l['homepoll_fid_description'] = "To use the latest poll from a forum (or forums), enter a list of the fids of the forum(s) to pull from, separated by commas. The fid can be found in URL for the forum (forumdisplay.php?fid=<strong>123</strong>, or forum-<strong>123</strong>.html).";
 $l['homepoll_pid_title'] = "Specific Poll to Display";
 $l['homepoll_pid_description'] = "To specify exactly which poll to use, enter the pid of the poll here (found in the Show Results URL of the poll: polls.php?action=showresults&pid=<strong>123</strong>).";
+$l['homepoll_edit_title'] = "Show Edit Poll Link for Moderators?";
+$l['homepoll_edit_description'] = "If yes, moderators with permissions in the poll's forum will see an edit poll link.";
 
 // Title and description for settings (Standard only).
 $l['homepoll_group_description'] = "Choose which forum or poll to use and where and how the poll is displayed.";
@@ -36,5 +38,4 @@ $l['homepoll_undo_vote'] = "Undo Vote";
 $l['homepoll_show_thread'] = "Show Thread";
 $l['homepoll_thread'] = "Thread";
 $l['homepoll_results'] = "Results";
-$l['homepoll_total'] = "{1}";
 ?>

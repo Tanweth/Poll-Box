@@ -1,7 +1,7 @@
 At Home Polls (formerly Poll Box)
 ========
 
-* Version: 2.0.2
+* Version: 2.0.3
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * Contact: tanweth@zoho.com
@@ -30,9 +30,16 @@ Features
 How to Install
 
 * Standard Edition: Upload the files in the Standard directory, and Install & Activate the plugin from the Configuration -> Plugins area of your Admin CP.
+
 * ASB Edition: Simply upload what's in the ASB directory, and Advanced Sidebox will automatically install the module.
 
-NB: If you previously used Poll Box, be sure to remove the module through Advanced Sidebox's Manage Modules page to avoid duplication. The plugin and all of its files has been renamed as of v2.0. You may also want to remove /inc/languages/english/asb_poll_box.lang.php for tidiness (it's harmless if it stays there).
+Upgrading
+
+* Standard Edition: Unless otherwise stated above, you can upgrade simply by deactivating the old plugin version, uploading the new version, and reactivating it.
+
+* ASB Edition: In your Admin CP, go to Configure > Advanced Sidebox > Manage Modules. Find the line for "Poll," click on the Options link, then click "Delete." Then follow the installation instructions as normal.
+
+If you previously used Poll Box, you may want to remove /inc/languages/english/asb_poll_box.lang.php for tidiness (it's harmless if it stays there).
 
 Setting It Up
 
@@ -61,6 +68,10 @@ If you notice a bug, you can report it in the Issues sections of the GitHub page
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 Changelog
+
+* 2.0.3
+	* Corrected an issue on the ASB Edition where multiple poll sideboxes on the same page would display the same number of total votes.
+	* Added an edit poll link visible to moderators of the poll's forum on both editions. This can be enabled and disabled with a setting on the ASB Edition (it is enabled by default). 
 
 * 2.0.2
 	* Changed the way the total votes are displayed on the ASB Edition and compact layout, since it tended to take up two lines when the vote count reached double digits after the 2.0.1 edits.

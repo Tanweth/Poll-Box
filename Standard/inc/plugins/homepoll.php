@@ -29,7 +29,7 @@ function homepoll_info()
 		"website"		=> "http://kerfufflealliance.com",
 		"author"		=> "Tanweth",
 		"authorsite"	=> "http://kerfufflealliance.com",
-		"version"		=> "2.0.2",
+		"version"		=> "2.0.3",
 		"guid" 			=> "4f3f47c9a77abfcc0d137dd0b43fc8c3",
 		"compatibility" => "16*"
 	);
@@ -173,7 +173,7 @@ function homepoll_activate()
 	<table width="100%" align="center">
 		<tr>
 			<td><input type="submit" class="button" value="{$lang->vote}" /></td>
-			<td valign="top" align="right"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>]</span></td>
+			<td valign="top" align="right"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>{$edit_poll}]</span></td>
 		</tr>
 		<tr>
 			<td colspan="2"><span class="smalltext">{$publicnote}</span></td>
@@ -205,7 +205,7 @@ function homepoll_activate()
 <table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 	<tr>
 		<td align="left"><span class="smalltext">{$lang->you_voted}</span></td>
-		<td align="right"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>]</span></td>
+		<td align="right"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_show_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->show_results}</a>{$edit_poll}]</span></td>
 	</tr>
 </table>
 <br />
@@ -235,7 +235,7 @@ function homepoll_activate()
 			<td class="trow1"><input type="submit" class="button" value="{$lang->vote}" /></td>
 		</tr>
 		<tr>
-			<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]</span></td>
+			<td class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]{$edit_poll}</span></td>
 		</tr>
 		<tr>
 			<td colspan="2" class="trow1"><span class="smalltext">{$publicnote}</span></td>
@@ -265,7 +265,7 @@ function homepoll_activate()
 </table>
 <table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 	<tr>
-		<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]</span></td>
+		<td align="right" class="trow1"><span class="smalltext">[<a href="showthread.php?tid={$poll[\'tid\']}">{$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={$poll[\'pid\']}">{$lang->homepoll_results}</a>]{$edit_poll}</span></td>
 	</tr>
 </table>
 		'),
@@ -529,9 +529,13 @@ function homepoll_poll()
 		}
 
 		// Check if user is allowed to edit posts; if so, show "edit poll" link.
-		if(!is_moderator($fid, 'caneditposts'))
+		if(!is_moderator($poll['fid'], 'caneditposts'))
 		{
 			$edit_poll = '';
+		}
+		elseif ($mybb->settings['homepoll_compact'])
+		{
+			$edit_poll = "<br/>[<a href=\"polls.php?action=editpoll&amp;pid={$poll['pid']}\">{$lang->edit_poll}</a>]";	
 		}
 		else
 		{
