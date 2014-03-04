@@ -76,11 +76,12 @@ You can also ask for support (bug-related or not) in the release thread: http://
 	* Now when users vote (or do any other poll action), they're redirected to the page where they voted rather than the poll's thread. The original behavior can be restored with a setting. There are two exceptions to this:
 		* ASB: The member profile pages. On these pages, the user is redirected to the forum index.
 		* Standard: Users are redirected to the forum index when editing the poll, even if they commenced the action from the Portal.
-	* Adde a setting to disable display of the poll if it is closed.
+	* Added a setting to disable display of the poll if it is closed.
 	* Standard: Fixed some display issues and made other improvements to the compact layout.
 	* Standard: Templates are now added to the global template list when applicable, so that they aren't generating unnecessary database queries.
 	* Improved the code's compliance with the MyBB Development Standards.
 	* General code optimizations.
+	* Switched the license to the MIT License. It says pretty much what my old corny license did, but in a more standard way. :P
 
 * 2.0.3
 	* Corrected an issue on the ASB Edition where multiple poll sideboxes on the same page would display the same number of total votes.
