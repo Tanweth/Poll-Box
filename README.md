@@ -48,7 +48,7 @@ A plugin for the MyBB forum software that allows a fully-functional poll to be d
 
 If you previously used Poll Box, you may want to remove /inc/languages/english/asb_poll_box.lang.php for tidiness (it's harmless if it stays there).
 
-Setting It Up
+##Setting It Up
 
 * Advanced Sidebox: As with any sidebox, you must go to Admin CP -> Configuration -> Advanced Sidebox, and drag the "Poll" module to whichever side you want it to display. Then select which scripts (pages) you want the poll to display on in the resulting popup.
 
@@ -64,13 +64,13 @@ Troubleshooting & Customization
 
 * On the standard edition, simple template edits are made to place the poll box on the Index and Portal pages. If these do not show up for any reason, or if you wish to move the location of the poll box, simply go to the index and portal templates and place the variable {$homepoll} wherever you want it to appear.
 
-Support
+##Support
 
 If you notice a bug or have a suggestion, you should report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
 
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
-Changelog
+##Changelog
 
 * 2.1
 	* Now when users vote (or do any other poll action), they're redirected to the page where they voted rather than the poll's thread. The original behavior can be restored with a setting. There are two exceptions to this:
@@ -110,7 +110,7 @@ Changelog
 
 * 1.0.1 - Added "return true" if the sidebox has something to display, so that it will display for users who set "Show Sideboxes With No Content?" to No in Advanced Sidebox.
 
-Special Thanks
+##Special Thanks
 
 * Wildcard - for making Advanced Sidebox (an awesome plugin), and for routinely assisting me with issues.
 * krafdi.de - for the Poll on Index plugin (which inspired this plugin).
