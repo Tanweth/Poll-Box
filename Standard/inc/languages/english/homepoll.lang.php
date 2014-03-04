@@ -23,6 +23,10 @@ $l['homepoll_pid_title'] = "Specific Poll to Display";
 $l['homepoll_pid_description'] = "To specify exactly which poll to use, enter the pid of the poll here (found in the Show Results URL of the poll: polls.php?action=showresults&pid=<strong>123</strong>).";
 $l['homepoll_edit_title'] = "Show Edit Poll Link for Moderators?";
 $l['homepoll_edit_description'] = "If yes, moderators with permissions in the poll's forum will see an edit poll link.";
+$l['homepoll_closed_title'] = "Display Closed Polls?";
+$l['homepoll_closed_description'] = "If no, polls that are closed will not be displayed.";
+$l['homepoll_redirect_title'] = "Redirect to Thread on Vote?";
+$l['homepoll_redirect_description'] = "If yes, the user will be redirected to the thread that contains the poll upon voting.";
 
 // Title and description for settings (Standard only).
 $l['homepoll_group_description'] = "Choose which forum or poll to use and where and how the poll is displayed.";

@@ -1,21 +1,24 @@
 At Home Polls (formerly Poll Box)
 ========
 
-* Version: 2.0.3
+<p align="center">
+  <img title="At Home Polls" alt="At Home Polls" src="http://kerfufflealliance.com/pictures/homepoll/logo_homepoll.jpg" />
+</p>
+
+* Version: 2.1
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
-* Contact: tanweth@zoho.com
 * GitHub: https://github.com/Tanweth/Poll-Box
 * Release thread: http://community.mybb.com/thread-145875.html
 * Website: http://kerfufflealliance.com
 
-A plugin that allows a fully-functional MyBB poll to be displayed on your home pages. Now includes two versions:
+A plugin for the MyBB forum software that allows a fully-functional poll to be displayed on your home pages. Now includes two versions:
 
 * Standard: A standard MyBB plugin that displays a poll on your Index and Portal pages. This version has no dependencies (other than MyBB 1.6).
 
 * Advanced Sidebox (ASB): Requires Advanced Sidebox 2.0.5 or later (found here: https://github.com/WildcardSearch/Advanced-Sidebox). This module allows you to display a sidebox-optimized poll in a sidebox on any page. It integrates directly with Advanced Sidebox (there's no MyBB plugin to install).
 
-Features
+##Features
 
 * Display the latest poll from a forum or forums, or specify a specific poll to display.
 
@@ -25,17 +28,21 @@ Features
 
 * Inherits permissions from the poll's forum, so it won't display for users who aren't supposed to be able to see it.
 
+* NEW: After users vote, choose either to redirect them back to the page where they voted or to the poll's thread.
+
+* NEW: Choose whether or not to display latest poll if it is closed.
+
 * Compact layout optimized for sideboxes (default in ASB edition, available as setting in standard edition).
 
-How to Install
+##How to Install
 
 * Standard Edition: Upload the files in the Standard directory, and Install & Activate the plugin from the Configuration -> Plugins area of your Admin CP.
 
 * ASB Edition: Simply upload what's in the ASB directory, and Advanced Sidebox will automatically install the module.
 
-Upgrading
+##Upgrading
 
-* Standard Edition: Unless otherwise stated above, you can upgrade simply by deactivating the old plugin version, uploading the new version, and reactivating it.
+* Standard Edition: Simply deactivate the old plugin version, upload the new version, and reactivate it.
 
 * ASB Edition: In your Admin CP, go to Configure > Advanced Sidebox > Manage Modules. Find the line for "Poll," click on the Options link, then click "Delete." Then follow the installation instructions as normal.
 
@@ -51,10 +58,6 @@ Setting It Up
 
 * If you'd prefer to specify a specific poll to display, you can enter its pid in the second dialog box under Settings. You can find the pid in the "Show Results" URL for the poll (polls.php?action=showresults&pid=<pid>).
 
-Known Issues
-
-When you cast your vote from the sidebox, it automatically redirects to the thread where the poll is. Some may prefer that it redirect back to the page where the vote was cast. As far as I know, the only way to implement this is to modify the poll.php core file and change the redirect behavior. If there is demand for it, I may provide an option to edit the core file and change the redirect behavior.
-
 Troubleshooting & Customization
 
 * If you are experiencing issues with the ASB edition, make sure you have the latest version of ASB (2.0.5 at the time of this readme).
@@ -63,11 +66,21 @@ Troubleshooting & Customization
 
 Support
 
-If you notice a bug, you can report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
+If you notice a bug or have a suggestion, you should report it in the Issues sections of the GitHub page: https://github.com/Tanweth/Poll-Box
 
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 Changelog
+
+* 2.1
+	* Now when users vote (or do any other poll action), they're redirected to the page where they voted rather than the poll's thread. The original behavior can be restored with a setting. There are two exceptions to this:
+		* ASB: The member profile pages. On these pages, the user is redirected to the forum index.
+		* Standard: Users are redirected to the forum index when editing the poll, even if they commenced the action from the Portal.
+	* Adde a setting to disable display of the poll if it is closed.
+	* Standard: Fixed some display issues and made other improvements to the compact layout.
+	* Standard: Templates are now added to the global template list when applicable, so that they aren't generating unnecessary database queries.
+	* Improved the code's compliance with the MyBB Development Standards.
+	* General code optimizations.
 
 * 2.0.3
 	* Corrected an issue on the ASB Edition where multiple poll sideboxes on the same page would display the same number of total votes.
