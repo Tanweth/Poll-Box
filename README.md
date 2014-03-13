@@ -5,7 +5,7 @@ At Home Polls (formerly Poll Box)
   <img title="At Home Polls" alt="At Home Polls" src="http://kerfufflealliance.com/pictures/homepoll/logo_homepoll.jpg" />
 </p>
 
-* Version: 2.1
+* Version: 2.2
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * GitHub: https://github.com/Tanweth/Poll-Box
@@ -71,6 +71,12 @@ If you notice a bug or have a suggestion, you should report it in the Issues sec
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 ##Changelog
+
+* 2.2
+	* Globalized the $homepoll variable on the Standard Edition. Now you can add the poll to any page of your forums by placing "{$homepoll}" in any template (with some exceptions, including the header template). By default it still only displays on Index and Portal, and display on those pages can still be enabled/disabled in settings.
+	* Improved the way the redirect back to the page where a poll action was taken is handled. It should now work on any page of the forums without issue. However, the redirect after editing a poll has been removed entirely. That implementation was more complex than I felt was worth to keep it around.
+	* Fixed an issue where the pollbar graphic wouldn't appear on the Show Results page on the ASB Edition.
+	* Cached the version number to make future upgrades easier (Standard only).
 
 * 2.1
 	* Now when users vote (or do any other poll action), they're redirected to the page where they voted rather than the poll's thread. The original behavior can be restored with a setting. There are two exceptions to this:

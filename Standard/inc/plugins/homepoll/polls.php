@@ -368,9 +368,9 @@ if($mybb->input['action'] == "do_editpoll" && $mybb->request_method == "post")
 	log_moderator_action($modlogdata, $lang->poll_edited);
 
 	/* MODIFIED REDIRECT BEHAVIOR FOR AT HOME POLLS PLUGIN
-	 * Changes the redirect on edit poll to the script/page where the edit poll link was clicked, rather than the thread where the poll originates.
+	 * Changes redirect on edit poll to forum index, rather than thread where poll originates.
 	 */ 	
-	redirect('index.php', $lang->redirect_unvoted);
+	redirect($mybb->settings['bburl'], $lang->redirect_unvoted);
 }
 
 if($mybb->input['action'] == "showresults")
@@ -685,16 +685,9 @@ if($mybb->input['action'] == "vote" && $mybb->request_method == "post")
 	$plugins->run_hooks("polls_vote_end");
 
 	/* MODIFIED REDIRECT BEHAVIOR FOR AT HOME POLLS PLUGIN
-	 * Changes the redirect on voting to the script/page where the vote button was clicked, rather than the thread where the poll originates.
+	 * Changes redirect on voting to page where vote button was clicked, rather than thread where the poll originates.
 	 */
-	$redirect_url = htmlspecialchars_uni($mybb->input['this_script']);
-	
-	if (empty($redirect_url))
-	{
-		$redirect_url = get_thread_link($thread['tid']);
-	}
-	 
-	redirect($redirect_url, $lang->redirect_votethanks);
+	redirect($mybb->input['redirect_url'], $lang->redirect_votethanks);
 }
 
 if($mybb->input['action'] == "do_undovote")
@@ -835,15 +828,8 @@ if($mybb->input['action'] == "do_undovote")
 	$plugins->run_hooks("polls_do_undovote_end");
 	
 	/* MODIFIED REDIRECT BEHAVIOR FOR AT HOME POLLS PLUGIN
-	 * Changes the redirect on undo vote to the script/page where the edit poll link was clicked, rather than the thread where the poll originates.
+	 * Changes redirect on undo vote to page where edit poll link was clicked, rather than thread where poll originates.
 	 */
-	$redirect_url = htmlspecialchars_uni($mybb->input['this_script']);
-	
-	if (empty($redirect_url))
-	{
-		$redirect_url = get_thread_link($thread['tid']);
-	}
-	
-	redirect($redirect_url, $lang->redirect_unvoted);
+	redirect($mybb->input['redirect_url'], $lang->redirect_unvoted);
 }
 ?>

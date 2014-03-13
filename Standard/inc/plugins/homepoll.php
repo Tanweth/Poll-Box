@@ -34,7 +34,7 @@ function homepoll_info()
 		'website'		=> 'http://github.com/Tanweth/Poll-Box',
 		'author'		=> 'Tanweth',
 		'authorsite'	=> 'http://kerfufflealliance.com',
-		'version'		=> '2.1',
+		'version'		=> '2.2',
 		'guid' 			=> '4f3f47c9a77abfcc0d137dd0b43fc8c3',
 		'compatibility' => '16*'
 	);
@@ -194,7 +194,13 @@ function homepoll_info()
  */
 function homepoll_upgrade()
 {
-	global $db, $lang;
+	global $cache, $db, $lang;
+	
+	// Cache version number if not cached already
+	$homepoll_cache = $cache->read('homepoll');
+	$version['cache'] = $homepoll_cache['version'];
+	$homepoll_info = homepoll_info();
+	$version['new'] = $homepoll_info['version'];
 	
 	$query = $db->simple_select("settings", "name", "name='homepoll_closed'");
 	
@@ -249,10 +255,17 @@ function homepoll_upgrade()
  */
 function homepoll_activate()
 {
-    global $mybb, $db;
+    global $cache, $mybb, $db;
 	
 	// Run upgrade routine if user is upgrading.
-	homepoll_upgrade();
+	$version = homepoll_upgrade();
+	
+	if ($version['cache'] != $version['new'])
+	{	
+		$homepoll_update['version'] = $version['new'];
+		$cache->update('homepoll', $homepoll_update);
+	}
+	
 
 	// Add new templates
 	$template = array(
@@ -262,7 +275,7 @@ function homepoll_activate()
 	<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
 	<input type="hidden" name="action" value="vote" />
 	<input type="hidden" name="pid" value="{$poll[\'pid\']}" />
-	<input type="hidden" name="this_script" value="{$this_script}" />
+	<input type="hidden" name="redirect_url" value="{$redirect_url}" />
 	<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
 		<tr>
 			<td colspan="4" class="thead" align="center"><a href="showthread.php?tid={$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{$poll[\'question\']}</a><br /></td>
@@ -321,13 +334,13 @@ function homepoll_activate()
 	<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
 	<input type="hidden" name="action" value="vote" />
 	<input type="hidden" name="pid" value="{$poll[\'pid\']}" />
-	<input type="hidden" name="this_script" value="{$this_script}" />
+	<input type="hidden" name="redirect_url" value="{$redirect_url}" />
 	<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
 		<tr>
 			<td colspan="4" class="thead">{$lang->homepoll_title_asb}</td>
 		</tr>
 		<tr>
-			<td class="trow1" colspan="4"><a href="showthread.php?tid={$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{$poll[\'question\']}</a><br /><span class="smalltext">{$pollstatus}</span><br /></td>
+			<td class="trow1" colspan="4"><a href="showthread.php?tid={$poll[\'tid\']}" style="text-decoration: none; font-weight: bold">{$poll[\'question\']}</a><br /><span class="smalltext">{$pollstatus}</span></td>
 		</tr>
 		{$polloptions}
 	</table>
@@ -395,30 +408,11 @@ function homepoll_activate()
         "dateline"        => TIME_NOW,
     );
 	$db->insert_query('templates', $template);
-	
-	$template = array(
-        'title'           => 'homepoll_resultbit_compact',
-        'template'        => $db->escape_string('
-<tr>
-	<td class="{$optionbg} smalltext" width="100%" align="left">{$option}{$votestar}</td>
-	<td class="{$optionbg}" width="37" align="right"><span class="smalltext">{$votes}</span></td>
-	<td class="{$optionbg}" width="37" align="right"><span class="smalltext">({$percent}%)</span></td>
-</tr>
-<tr>
-	<td class="{$optionbg}" colspan="3" align="right"><img src="{$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{$theme[\'imgdir\']}/pollbar.gif" width="{$imagewidth}" height="10" alt="{$percent}%" title="{$percent}%" /><img src="{$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
-</tr>
-		'),
-        "sid"            => "-1",
-        "version"        => $mybb->version + 1,
-        "dateline"        => TIME_NOW,
-    );
-	$db->insert_query('templates', $template);
 
 	// Add edits to default templates
 	require_once MYBB_ROOT.'/inc/adminfunctions_templates.php';
 	
 	find_replace_templatesets('index', '#'.preg_quote('{$header}').'#', '{$header}{$homepoll}');
-	
 	find_replace_templatesets('portal', '#'.preg_quote('{$header}').'#', '{$header}{$homepoll}');
 	
 }
@@ -459,19 +453,11 @@ function homepoll_templatelist()
 	
 	if(THIS_SCRIPT == 'index.php' || THIS_SCRIPT == 'portal.php')
 	{
-		$templatelist .= ',homepoll_poll,homepoll_results,showthread_poll_resultbit,homepoll_poll_compact,homepoll_poll_compact,homepoll_results_compact,homepoll_resultbit_compact';
+		$templatelist .= ',homepoll_poll,homepoll_results,showthread_poll_resultbit,homepoll_poll_compact,homepoll_results_compact,homepoll_resultbit_compact';
 	}
 }
 
-// Time to display the poll!
-if ($mybb->settings['homepoll_index'])
-{
-	$plugins->add_hook('index_start', 'homepoll_poll');
-}
-if ($mybb->settings['homepoll_portal'])
-{	
-	$plugins->add_hook('portal_start', 'homepoll_poll');
-}	
+$plugins->add_hook('global_end', 'homepoll_poll');
 
 /*
  * homepoll_poll()
@@ -480,10 +466,27 @@ if ($mybb->settings['homepoll_portal'])
  */
 function homepoll_poll()
 {
-	global $mybb, $db, $templates, $theme, $lang, $this_script, $polls_script, $homepoll;
+	global $mybb, $db, $theme, $lang, $templates, $redirect_url, $polls_script, $homepoll;
 	
-	$lang->load('showthread');
-	$lang->load('homepoll');
+	if (THIS_SCRIPT == 'index.php' && !$mybb->settings['homepoll_index'])
+	{
+		return false;
+	}
+	elseif (THIS_SCRIPT == 'portal.php' && !$mybb->settings['homepoll_portal'])
+	{	
+		return false;
+	}
+
+	if (!$lang->showthread)
+	{
+		$lang->load('showthread');
+	}	
+	if (!$lang->homepoll)
+	{
+		$lang->load('homepoll');
+	}
+	
+	require_once MYBB_ROOT."inc/class_parser.php";
     $parser = new postParser;
 
 	$options = array(
@@ -531,7 +534,6 @@ function homepoll_poll()
 		$poll = $db->fetch_array($query);
 	}
 	
-	$this_script = THIS_SCRIPT;
 	$forumpermissions = forum_permissions($poll['fid']);
 	
 	// Only display if the query is not empty and user has the right to view the poll.
@@ -670,6 +672,16 @@ function homepoll_poll()
 	{
 		$totpercent = '0%';
 	}
+	
+	// If set to redirect to poll's thread, use default MyBB behavior on vote submit.
+	if ($mybb->settings['homepoll_redirect'])
+	{
+		$polls_script = 'polls.php';
+	}
+	else
+	{
+		$polls_script = 'inc/plugins/homepoll/polls.php';
+	}
 
 	// Check if user is allowed to edit posts; if so, show edit poll link.
 	if(!is_moderator($poll['fid'], 'caneditposts'))
@@ -678,6 +690,7 @@ function homepoll_poll()
 	}
 	else
 	{
+		// Change how the edit poll link is displayed depending upon whether compact layout or not.
 		if (!$mybb->settings['homepoll_compact'])
 		{
 			$edit_poll = ' | ';
@@ -687,20 +700,36 @@ function homepoll_poll()
 			$edit_poll = '<br />[';
 		}
 		
-		// If set to redirect to poll's thread, use default MyBB behavior.
-		if ($mybb->settings['homepoll_redirect'])
-		{
-			$edit_poll .= '<a href="polls.php?action=editpoll&amp;pid='.$poll['pid'].'">'.$lang->edit_poll.'</a>';	
-		}
-		else
-		{			
-			$edit_poll .= '<a href="inc/plugins/homepoll/polls.php?&amp;action=editpoll&amp;pid='.$poll['pid'].'">'.$lang->edit_poll.'</a>';
-		}
+		$edit_poll .= '<a href="'.$polls_script.'?action=editpoll&amp;pid='.$poll['pid'].'">'.$lang->edit_poll.'</a>';	
 		
 		if ($mybb->settings['homepoll_compact'])
 		{
 			$edit_poll .= ']';
 		}
+	}
+	
+	// Get user's current location at time of voting (or undoing vote) so we can return to it.
+	$redirect_url_raw = get_current_location();
+	
+	// get_current_location() must be parsed to remove any path elements so that they won't be duplicated in final redirect URL.
+	$bburl_parsed = parse_url($mybb->settings['bburl']);
+	
+	// If board's URL includes any subdirectories, remove them from redirect URL (and remove forward slashes), since get_current_location() includes them.
+	if (strpos($redirect_url_raw, $bburl_parsed['path']) !== FALSE)
+	{
+		$bburl_relative_strlen = strlen($bburl_parsed['path']);
+		$redirect_url = $mybb->settings['bburl'] . substr($redirect_url_raw, $bburl_relative_strlen);
+		
+	}
+	else
+	{
+		$redirect_url = $mybb->settings['bburl'] . $redirect_url_raw;
+	}
+	
+	// Since pid both refers to poll ID and post ID, if we're on a showthread page and link includes a pid (for post ID) argument, we need to remove it from URL so that it won't be confused for poll ID.
+	if (substr_count($redirect_url, 'pid'))
+	{
+		$redirect_url = substr($redirect_url, 0, strpos($redirect_url, '&amp;pid'));
 	}
 
 	// Decide what poll status to show depending on the status of the poll and whether or not the user voted already.
@@ -711,11 +740,11 @@ function homepoll_poll()
 			// If set to redirect to poll's thread, use default MyBB behavior.
 			if ($mybb->settings['homepoll_redirect'])
 			{
-				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'">'.$lang->homepoll_undo_vote.'</a>]';
+				$pollstatus = ' [<a href="polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'">'.$lang->homepoll_undo_vote.'</a>]';
 			}
 			else
 			{
-				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'&amp;this_script='.THIS_SCRIPT.$url_append.'">'.$lang->homepoll_undo_vote.'</a>]';
+				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'&amp;redirect_url='.$redirect_url.'">'.$lang->homepoll_undo_vote.'</a>]';
 			}
 		}
 		else
@@ -740,16 +769,6 @@ function homepoll_poll()
 		if($poll['public'] == 1)
 		{
 			$publicnote = $lang->public_note;
-		}
-		
-		// If set to redirect to poll's thread, use default MyBB behavior on vote submit.
-		if ($settings['homepoll_redirect']['value'])
-		{
-			$polls_script = 'polls.php';
-		}
-		else
-		{
-			$polls_script = 'inc/plugins/homepoll/polls.php';
 		}
 		
 		if ($mybb->settings['homepoll_compact'])

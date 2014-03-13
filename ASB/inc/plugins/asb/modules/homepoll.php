@@ -40,7 +40,8 @@ function asb_homepoll_info()
 		'title' => $lang->homepoll_title_asb,
 		'description' => $lang->homepoll_description_asb,
 		'wrap_content'	=> true,
-		'version' => '2.1',
+		'version' => '2.2',
+		// 'xmlhttp' => true,
 		'settings' =>	array
 		(
 			'homepoll_fid' => array
@@ -88,6 +89,15 @@ function asb_homepoll_info()
 				'optionscode' => 'yesno',
 				'value' => 'no'
 			),
+/* 			'xmlhttp_on' => array
+			(
+				'sid' => 'NULL',
+				'name' => 'xmlhttp_on',
+				'title' => $lang->asb_xmlhttp_on_title,
+				'description' => $lang->asb_xmlhttp_on_description,
+				'optionscode' => 'text',
+				'value' => '0'
+			) */
 		),
 		'templates' => array
 		(
@@ -99,6 +109,7 @@ function asb_homepoll_info()
 	<input type="hidden" name="my_post_key" value="{\$mybb->post_code}" />
 	<input type="hidden" name="action" value="vote" />
 	<input type="hidden" name="pid" value="{\$poll[\'pid\']}" />
+	<input type="hidden" name="redirect_url" value="{\$redirect_url}" />
 	<tr>
 		<td class="trow1">
 			<table>
@@ -112,7 +123,7 @@ function asb_homepoll_info()
 					<td class="trow1"><input type="submit" class="button" value="{\$lang->vote}" /></td>
 				</tr>
 				<tr>
-					<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="inc/plugins/homepoll/polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
+					<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
 				</tr>
 				<tr>
 					<td colspan="2" class="trow1"><span class="smalltext">{\$publicnote}</span></td>
@@ -141,7 +152,7 @@ EOF
 		</table>
 		<table cellspacing="0" cellpadding="2" border="0" width="100%" align="center">
 			<tr>
-				<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="inc/plugins/homepoll/polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
+				<td class="trow1" align="right"><span class="smalltext">[<a href="showthread.php?tid={\$poll[\'tid\']}">{\$lang->homepoll_thread}</a> | <a href="polls.php?action=showresults&amp;pid={\$poll[\'pid\']}">{\$lang->homepoll_results}</a>]{\$edit_poll}</span></td>
 			</tr>
 		</table>
 	</td>
@@ -160,82 +171,6 @@ EOF
 <tr>
 	<td class="{\$optionbg}" colspan="3" align="right"><img src="{\$theme[\'imgdir\']}/pollbar-s.gif" alt="" /><img src="{\$theme[\'imgdir\']}/pollbar.gif" width="{\$imagewidth}" height="10" alt="{\$percent}%" title="{\$percent}%" /><img src="{\$theme[\'imgdir\']}/pollbar-e.gif" alt="" /></td>
 </tr>
-EOF
-			),
-			array
-			(
-				'title' => 'asb_poll_edit',
-				'template' => <<<EOF
-<html>
-<head>
-<title>{\$mybb->settings[\'bbname\']} - {\$lang->edit_poll}</title>
-{\$headerinclude}
-</head>
-<body>
-{\$header}
-{\$preview}
-<form action="moderation.php" method="post">
-	<input type="hidden" name="my_post_key" value="{\$mybb->post_code}" />
-	<table border="0" cellspacing="{\$theme[\'borderwidth\']}" cellpadding="{\$theme[\'tablespace\']}" class="tborder">
-		<tr>
-			<td class="thead" colspan="3"><strong>{\$lang->delete_poll}</strong></td>
-		</tr>
-		<tr>
-			<td class="trow1" style="white-space: nowrap"><input type="checkbox" class="checkbox" name="delete" value="1" tabindex="9" /><strong>{\$lang->delete_q}</strong></td>
-			<td class="trow1" width="100%">{\$lang->delete_note}<br /><span class="smalltext">{\$lang->delete_note2}</span></td>
-			<td class="trow1" style="white-space: nowrap"><input type="submit" class="button" name="submit" value="{\$lang->delete_poll}" tabindex="10" /></td>
-	</table>
-	<input type="hidden" name="action" value="do_deletepoll" />
-	<input type="hidden" name="tid" value="{\$tid}" />
-</form>
-<br />
-<form action="polls.php" method="post">
-	<input type="hidden" name="my_post_key" value="{\$mybb->post_code}" />
-	<table border="0" cellspacing="{\$theme[\'borderwidth\']}" cellpadding="{\$theme[\'tablespace\']}" class="tborder">
-		<tr>
-			<td class="thead" colspan="2"><strong>{\$lang->edit_poll}</strong></td>
-		</tr>
-		{\$loginbox}
-		<tr>
-			<td class="trow2"><strong>{\$lang->question}</strong></td>
-			<td class="trow2"><input type="text" class="textbox" name="question" size="40" maxlength="240" value="{\$question}" /></td>
-		</tr>
-		<tr>
-			<td class="trow1" valign="top"><strong>{\$lang->num_options}</strong><br /><span class="smalltext">{\$lang->max_options} {\$mybb->settings[\'maxpolloptions\']}</span></td>
-			<td class="trow1"><input type="text" class="textbox" name="numoptions" size="10" value="{\$numoptions}" />&nbsp;&nbsp;<input type="submit" class="button" name="updateoptions" value="{\$lang->update_options}" /></td>
-		</tr>
-		<tr>
-			<td class="trow2" valign="top"><strong>{\$lang->poll_options}</strong></td>
-			<td class="trow2"><span class="smalltext">{\$lang->poll_options_note}</span>
-				<table border="0" cellspacing="0" cellpadding="0">
-					{\$optionbits}
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td class="trow1" valign="top"><strong>{\$lang->options}</strong></td>
-			<td class="trow1"><span class="smalltext">
-				<label><input type="checkbox" class="checkbox" name="postoptions[multiple]" value="1" {\$postoptionschecked[\'multiple\']} />&nbsp;{\$lang->option_multiple}</label><br />
-				<label><input type="checkbox" class="checkbox" name="postoptions[public]" value="1" {\$postoptionschecked[\'public\']} />&nbsp;{\$lang->option_public}</label><br />
-				<label><input type="checkbox" class="checkbox" name="postoptions[closed]" value="1" {\$postoptionschecked[\'closed\']} />&nbsp;{\$lang->option_closed}</label>
-			</span></td>
-		</tr>
-		<tr>
-			<td class="trow2" valign="top"><strong>{\$lang->poll_timeout}</strong><br /><span class="smalltext">{\$lang->timeout_note}</span></td>
-			<td class="trow2"><input type="text" class="textbox" name="timeout" value="{\$timeout}" /> {\$lang->days_after} {\$polldate}</td>
-		</tr>
-	</table>
-	<br />
-	<div align="center">
-		<input type="submit" class="button" name="submit" value="{\$lang->update_poll}" />
-	</div>
-	<input type="hidden" name="action" value="do_editpoll" />
-	<input type="hidden" name="pid" value="{\$pid}" />
-	<input type="hidden" name="redirect_url" value="{\$redirect_url}" />
-</form>
-{\$footer}
-</body>
-</html>
 EOF
 			)
 		)
@@ -286,6 +221,35 @@ function asb_homepoll_build_template($args)
 		return false;
 	}
 }
+
+/*
+ * asb_homepoll_xmlhttp()
+ *
+ * Handles display of children of this addon via AJAX
+ *
+ * @param - $args - (array) the specific information from the child box
+ * @return: n/a
+ */	
+/* function asb_homepoll_xmlhttp($args)
+{
+	if(!$lang->showthread)
+	{
+		$lang->load('showthread');
+	}
+
+	foreach(array('settings', 'dateline', 'width') as $key)
+	{
+		$$key = $args[$key];
+	}
+	
+	$asb_homepoll = asb_homepoll_build_poll($settings, $width);
+
+	if($asb_homepoll)
+	{
+		return $asb_homepoll;
+	}
+	return 'nochange';
+} */
 	
 /*
  * asb_homepoll_build_poll()
@@ -300,7 +264,7 @@ function asb_homepoll_build_template($args)
  */
 function asb_homepoll_build_poll($settings, $width)
 {
-	global $mybb, $lang, $db, $theme, $forum, $thread, $polls_script, $templates;
+	global $mybb, $lang, $db, $theme, $templates, $polls_script, $redirect_url;
 	
 	require_once MYBB_ROOT.'inc/class_parser.php';
 		
@@ -466,7 +430,7 @@ function asb_homepoll_build_poll($settings, $width)
 	{
 		$totpercent = '0%';
 	}
-
+	
 	// Check if user is allowed to edit posts; if so, show edit poll link.
 	if(!is_moderator($poll['fid'], 'caneditposts') || !$settings['homepoll_edit']['value'])
 	{
@@ -474,25 +438,32 @@ function asb_homepoll_build_poll($settings, $width)
 	}
 	else
 	{
-		// If set to redirect to poll's thread, use default MyBB behavior.
-		if ($settings['homepoll_redirect']['value'])
-		{
-			$edit_poll = '<br/>[<a href="polls.php?&amp;action=editpoll&amp;pid='.$poll['pid'].'">'.$lang->edit_poll.'</a>]';
-		}
-		else
-		{
-			if (THIS_SCRIPT == 'forumdisplay.php')
-			{
-				$url_append = '&amp;fid='.$forum['fid'];
-			}
-			elseif (THIS_SCRIPT == 'showthread.php')
-			{
-				$url_append = '&amp;tid='.$thread['tid'];
-			}
-			$edit_poll = '<br/>[<a href="inc/plugins/homepoll/polls.php?&amp;action=editpoll&amp;pid='.$poll['pid'].'&amp;this_script='.THIS_SCRIPT.$url_append.'">'.$lang->edit_poll.'</a>]';
-		}
+		$edit_poll = '<br/>[<a href="polls.php?&amp;action=editpoll&amp;pid='.$poll['pid'].'">'.$lang->edit_poll.'</a>]';
 	}
 
+	// Get user's current location at time of voting (or undoing vote) so we can return to it.
+	$redirect_url_raw = get_current_location();
+	
+	// get_current_location() must be parsed to remove any path elements so that they won't be duplicated in final redirect URL.
+	$bburl_parsed = parse_url($mybb->settings['bburl']);
+	
+	// If board's URL includes any subdirectories, remove them from redirect URL (and remove forward slashes), since get_current_location() includes them.
+	if (strpos($redirect_url_raw, $bburl_parsed['path']) !== FALSE)
+	{
+		$bburl_relative_strlen = strlen($bburl_parsed['path']);
+		$redirect_url = $mybb->settings['bburl'] . substr($redirect_url_raw, $bburl_relative_strlen);
+	}
+	else
+	{
+		$redirect_url = $mybb->settings['bburl'] . $redirect_url_raw;
+	}
+	
+	// Since pid both refers to poll ID and post ID, if we're on a showthread page and link includes a pid (for post ID) argument, we need to remove it from URL so that it won't be confused for poll ID.
+	if (substr_count($redirect_url, 'pid'))
+	{
+		$redirect_url = substr($redirect_url, 0, strpos($redirect_url, '&amp;pid'));
+	}
+	
 	// Decide what poll status to show depending on the status of the poll and whether or not the user voted already.
 	if($alreadyvoted || $showresults)
 	{
@@ -501,19 +472,11 @@ function asb_homepoll_build_poll($settings, $width)
 			// If set to redirect to poll's thread, use default MyBB behavior.
 			if ($settings['homepoll_redirect']['value'])
 			{
-				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'">'.$lang->homepoll_undo_vote.'</a>]';
+				$pollstatus = ' [<a href="polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'">'.$lang->homepoll_undo_vote.'</a>]';
 			}
 			else
 			{
-				if (THIS_SCRIPT == 'forumdisplay.php')
-				{
-					$url_append = '&amp;fid='.$forum['fid'];
-				}
-				elseif (THIS_SCRIPT == 'showthread.php')
-				{
-					$url_append = '&amp;tid='.$thread['tid'];
-				}
-				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'&amp;this_script='.THIS_SCRIPT.$url_append.'">'.$lang->homepoll_undo_vote.'</a>]';
+				$pollstatus = ' [<a href="inc/plugins/homepoll/polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'&amp;redirect_url='.$redirect_url.'">'.$lang->homepoll_undo_vote.'</a>]';
 			}
 		}
 		else
