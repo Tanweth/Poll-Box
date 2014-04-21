@@ -1,8 +1,8 @@
 <?php
 /*
  * Plugin Name: At Home Polls (Advanced Sidebox Edition)
- * Author: Tanweth
- * http://www.kerfufflealliance.com
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * Copyright © 2014 Aryndel Lamb-Marsh (aka Tanweth)
  *
  * Allows a fully-functional and sidebox-optimized poll to be displayed in a sidebox.
  * Requires MyBB 1.6.x and Advanced Sidebox 2.0.5 or later.
@@ -40,8 +40,9 @@ function asb_homepoll_info()
 		'title' => $lang->homepoll_title_asb,
 		'description' => $lang->homepoll_description_asb,
 		'wrap_content'	=> true,
-		'version' => '2.2',
-		// 'xmlhttp' => true,
+		'version' => '2.3',
+		'compatibility' => '2.1',
+		'xmlhttp' => true,
 		'settings' =>	array
 		(
 			'homepoll_fid' => array
@@ -89,7 +90,7 @@ function asb_homepoll_info()
 				'optionscode' => 'yesno',
 				'value' => 'no'
 			),
-/* 			'xmlhttp_on' => array
+			'xmlhttp_on' => array
 			(
 				'sid' => 'NULL',
 				'name' => 'xmlhttp_on',
@@ -97,7 +98,7 @@ function asb_homepoll_info()
 				'description' => $lang->asb_xmlhttp_on_description,
 				'optionscode' => 'text',
 				'value' => '0'
-			) */
+			)
 		),
 		'templates' => array
 		(
@@ -230,7 +231,7 @@ function asb_homepoll_build_template($args)
  * @param - $args - (array) the specific information from the child box
  * @return: n/a
  */	
-/* function asb_homepoll_xmlhttp($args)
+function asb_homepoll_xmlhttp($args)
 {
 	if(!$lang->showthread)
 	{
@@ -249,7 +250,7 @@ function asb_homepoll_build_template($args)
 		return $asb_homepoll;
 	}
 	return 'nochange';
-} */
+}
 	
 /*
  * asb_homepoll_build_poll()
@@ -275,9 +276,9 @@ function asb_homepoll_build_poll($settings, $width)
 	);
 	
 	// Check if user supplied a pid. Run query, joining with threads table to obtain fid of poll (needed to inherit permissions).
-	if ($settings['homepoll_pid']['value'])
+	if ($settings['homepoll_pid'])
 	{
-		$pid = (int) $settings['homepoll_pid']['value'];
+		$pid = (int) $settings['homepoll_pid'];
 	
 		$query = $db->write_query("
 			SELECT t.tid, t.fid, p.*
@@ -289,9 +290,9 @@ function asb_homepoll_build_poll($settings, $width)
 		$poll = $db->fetch_array($query);
 	}
 	// Check if user supplied an fid/fids. Join with threads table so polls can be limited by fid (and so permissions can be inherited).
-	elseif ($settings['homepoll_fid']['value'])
+	elseif ($settings['homepoll_fid'])
 	{
-		$poll_fids = explode(',', $settings['homepoll_fid']['value']);
+		$poll_fids = explode(',', $settings['homepoll_fid']);
 		
 		if (is_array($poll_fids))
 		{
@@ -300,7 +301,7 @@ function asb_homepoll_build_poll($settings, $width)
 		}
 		else
 		{
-			$poll_fids = (int) $settings['homepoll_fid']['value'];
+			$poll_fids = (int) $settings['homepoll_fid'];
 		}
 			
 		$query = $db->write_query("
@@ -329,7 +330,7 @@ function asb_homepoll_build_poll($settings, $width)
 	// If the poll or the thread is closed or if the poll is expired, show the results.
 	if($poll['closed'] == 1 || $thread['closed'] == 1 || ($expiretime < $now && $poll['timeout'] > 0))
 	{
-		if (!$settings['homepoll_closed']['value'])
+		if (!$settings['homepoll_closed'])
 		{			
 			return false;
 		}
@@ -432,7 +433,7 @@ function asb_homepoll_build_poll($settings, $width)
 	}
 	
 	// Check if user is allowed to edit posts; if so, show edit poll link.
-	if(!is_moderator($poll['fid'], 'caneditposts') || !$settings['homepoll_edit']['value'])
+	if(!is_moderator($poll['fid'], 'caneditposts') || !$settings['homepoll_edit'])
 	{
 		$edit_poll = '';
 	}
@@ -470,7 +471,7 @@ function asb_homepoll_build_poll($settings, $width)
 		if($alreadyvoted && $mybb->usergroup['canundovotes'] == 1)
 		{
 			// If set to redirect to poll's thread, use default MyBB behavior.
-			if ($settings['homepoll_redirect']['value'])
+			if ($settings['homepoll_redirect'])
 			{
 				$pollstatus = ' [<a href="polls.php?action=do_undovote&amp;pid='.$poll['pid'].'&amp;my_post_key='.$mybb->post_code.'">'.$lang->homepoll_undo_vote.'</a>]';
 			}
@@ -494,7 +495,7 @@ function asb_homepoll_build_poll($settings, $width)
 		}
 		
 		// If set to redirect to poll's thread, use default MyBB behavior on vote submit.
-		if ($settings['homepoll_redirect']['value'])
+		if ($settings['homepoll_redirect'])
 		{
 			$polls_script = 'polls.php';
 		}

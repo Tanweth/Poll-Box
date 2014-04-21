@@ -1,8 +1,8 @@
 <?php
 /*
  * Plugin Name: At Home Polls (Standard Edition)
- * Author: Tanweth
- * http://www.kerfufflealliance.com
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * Copyright © 2014 Aryndel Lamb-Marsh (aka Tanweth)
  *
  * Allows a fully-functional poll to be placed on the Index and Portal pages.
  * Requires MyBB 1.6.x.

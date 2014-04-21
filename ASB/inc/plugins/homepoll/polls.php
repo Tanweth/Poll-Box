@@ -1,8 +1,8 @@
 <?php
-/**
+/*
  * Plugin Name: At Home Polls (Advanced Sidebox Edition)
- * Author: Tanweth
- * http://www.kerfufflealliance.com
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * Copyright © 2014 Aryndel Lamb-Marsh (aka Tanweth)
  *
  * This is a slightly modified version of the polls.php from MyBB core for use with the above plugin. It modifies the redirect behavior.
  *

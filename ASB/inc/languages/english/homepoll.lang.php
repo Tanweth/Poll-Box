@@ -1,8 +1,8 @@
 <?php
 /*
  * Plugin Name: At Home Polls
- * Author: Tanweth
- * http://www.kerfufflealliance.com
+ * License: MIT (http://opensource.org/licenses/MIT)
+ * Copyright © 2014 Aryndel Lamb-Marsh (aka Tanweth)
  *
  * Allows a fully-functional and sidebox-optimized poll to be placed in a sidebox (ASB Edition) or on the Index and Portal pages (Standard Edition).
  * Requires MyBB 1.6.x and Advanced Sidebox 2.0.5 or later (if using ASB Edition).

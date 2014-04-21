@@ -5,7 +5,7 @@ At Home Polls (formerly Poll Box)
   <img title="At Home Polls" alt="At Home Polls" src="http://kerfufflealliance.com/pictures/homepoll/logo_homepoll.jpg" />
 </p>
 
-* Version: 2.2
+* Version: 2.3
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * GitHub: https://github.com/Tanweth/Poll-Box
@@ -71,6 +71,10 @@ If you notice a bug or have a suggestion, you should report it in the Issues sec
 You can also ask for support (bug-related or not) in the release thread: http://community.mybb.com/thread-145875.html
 
 ##Changelog
+
+* 2.3
+	* Added compatibility with ASB v2.1.
+	* Added AJAX automatic refreshing capability to the ASB Edition.
 
 * 2.2
 	* Globalized the $homepoll variable on the Standard Edition. Now you can add the poll to any page of your forums by placing "{$homepoll}" in any template (with some exceptions, including the header template). By default it still only displays on Index and Portal, and display on those pages can still be enabled/disabled in settings.
