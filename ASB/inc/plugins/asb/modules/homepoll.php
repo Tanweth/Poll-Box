@@ -5,7 +5,7 @@
  * Copyright © 2014 Aryndel Lamb-Marsh (aka Tanweth)
  *
  * Allows a fully-functional and sidebox-optimized poll to be displayed in a sidebox.
- * Requires MyBB 1.6.x and Advanced Sidebox 2.0.5 or later.
+ * Requires MyBB 1.6.x and Advanced Sidebox.
  */
 
 // Include a check for Advanced Sidebox
@@ -39,10 +39,13 @@ function asb_homepoll_info()
 	(
 		'title' => $lang->homepoll_title_asb,
 		'description' => $lang->homepoll_description_asb,
+		'author' => 'Tanweth',
+		'module_site' => 'https://github.com/Tanweth/Poll-Box',
+		'author_site' => 'http://kerfufflealliance.com',
 		'wrap_content'	=> true,
-		'version' => '2.3',
+		'version' => '2.2.1',
 		'compatibility' => '2.1',
-		'xmlhttp' => true,
+		// 'xmlhttp' => true,
 		'settings' =>	array
 		(
 			'homepoll_fid' => array
@@ -90,7 +93,7 @@ function asb_homepoll_info()
 				'optionscode' => 'yesno',
 				'value' => 'no'
 			),
-			'xmlhttp_on' => array
+/* 			'xmlhttp_on' => array
 			(
 				'sid' => 'NULL',
 				'name' => 'xmlhttp_on',
@@ -98,7 +101,7 @@ function asb_homepoll_info()
 				'description' => $lang->asb_xmlhttp_on_description,
 				'optionscode' => 'text',
 				'value' => '0'
-			)
+			) */
 		),
 		'templates' => array
 		(
@@ -231,8 +234,10 @@ function asb_homepoll_build_template($args)
  * @param - $args - (array) the specific information from the child box
  * @return: n/a
  */	
-function asb_homepoll_xmlhttp($args)
+/* function asb_homepoll_xmlhttp($args)
 {
+	global $lang;
+
 	if(!$lang->showthread)
 	{
 		$lang->load('showthread');
@@ -250,7 +255,7 @@ function asb_homepoll_xmlhttp($args)
 		return $asb_homepoll;
 	}
 	return 'nochange';
-}
+} */
 	
 /*
  * asb_homepoll_build_poll()
@@ -268,9 +273,8 @@ function asb_homepoll_build_poll($settings, $width)
 	global $mybb, $lang, $db, $theme, $templates, $polls_script, $redirect_url;
 	
 	require_once MYBB_ROOT.'inc/class_parser.php';
-		
+	
     $parser = new postParser;
-
 	$options = array(
 		'limit' => 1
 	);
@@ -449,7 +453,7 @@ function asb_homepoll_build_poll($settings, $width)
 	$bburl_parsed = parse_url($mybb->settings['bburl']);
 	
 	// If board's URL includes any subdirectories, remove them from redirect URL (and remove forward slashes), since get_current_location() includes them.
-	if (strpos($redirect_url_raw, $bburl_parsed['path']) !== FALSE)
+	if (strpos($redirect_url_raw, $bburl_parsed['path']))
 	{
 		$bburl_relative_strlen = strlen($bburl_parsed['path']);
 		$redirect_url = $mybb->settings['bburl'] . substr($redirect_url_raw, $bburl_relative_strlen);

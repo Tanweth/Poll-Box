@@ -5,7 +5,7 @@ At Home Polls (formerly Poll Box)
   <img title="At Home Polls" alt="At Home Polls" src="http://kerfufflealliance.com/pictures/homepoll/logo_homepoll.jpg" />
 </p>
 
-* Version: 2.3
+* Version: 2.2.1
 * Compatibility: MyBB 1.6.x (last tested on 1.6.12)
 * Author: Tanweth
 * GitHub: https://github.com/Tanweth/Poll-Box
@@ -16,7 +16,7 @@ A plugin for the MyBB forum software that allows a fully-functional poll to be d
 
 * Standard: A standard MyBB plugin that displays a poll on your Index and Portal pages. This version has no dependencies (other than MyBB 1.6).
 
-* Advanced Sidebox (ASB): Requires Advanced Sidebox 2.0.5 or later (found here: https://github.com/WildcardSearch/Advanced-Sidebox). This module allows you to display a sidebox-optimized poll in a sidebox on any page. It integrates directly with Advanced Sidebox (there's no MyBB plugin to install).
+* Advanced Sidebox (ASB): Requires Advanced Sidebox 2.1 or later (found here: https://github.com/WildcardSearch/Advanced-Sidebox). This module allows you to display a sidebox-optimized poll in a sidebox on any page. It integrates directly with Advanced Sidebox (there's no MyBB plugin to install).
 
 ##Features
 
@@ -72,9 +72,8 @@ You can also ask for support (bug-related or not) in the release thread: http://
 
 ##Changelog
 
-* 2.3
-	* Added compatibility with ASB v2.1.
-	* Added AJAX automatic refreshing capability to the ASB Edition.
+* 2.2.1
+	* Added compatibility with ASB v2.1. If you do not use the ASB Edition, there is no reason to upgrade.
 
 * 2.2
 	* Globalized the $homepoll variable on the Standard Edition. Now you can add the poll to any page of your forums by placing "{$homepoll}" in any template (with some exceptions, including the header template). By default it still only displays on Index and Portal, and display on those pages can still be enabled/disabled in settings.
