@@ -44,7 +44,7 @@ A plugin for the MyBB forum software that allows a fully-functional poll to be d
 
 * Standard Edition: Simply deactivate the old plugin version, upload the new version, and reactivate it.
 
-* ASB Edition: In your Admin CP, go to Configure > Advanced Sidebox > Manage Modules. Find the line for "Poll," click on the Options link, then click "Delete." Then follow the installation instructions as normal.
+* ASB Edition: Simply upload the new files, and ASB will automatically upgrade the module.
 
 If you previously used Poll Box, you may want to remove /inc/languages/english/asb_poll_box.lang.php for tidiness (it's harmless if it stays there).
 
